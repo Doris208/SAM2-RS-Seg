@@ -49,6 +49,14 @@ def safe_path(root, relative):
     path = root.joinpath(*pure.parts)
     if not path.resolve().is_relative_to(root.resolve()):
         raise ValueError(f"Path escapes root: {relative}")
+    if os.name == "nt":
+        # SAM2/MMSeg source names can exceed MAX_PATH after adding a release directory.
+        prefix = "//?/".replace("/", os.sep)
+        absolute = str(path.resolve())
+        if not absolute.startswith(prefix):
+            if absolute.startswith(os.sep * 2):
+                absolute = "UNC" + os.sep + absolute[2:]
+            path = Path(prefix + absolute)
     return path
 
 

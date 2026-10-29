@@ -4,6 +4,7 @@ import contextlib
 import io
 import json
 from pathlib import Path
+import shutil
 import tempfile
 import unittest
 
@@ -56,6 +57,26 @@ class LabelContractTests(unittest.TestCase):
 
 
 class DeploymentIntegrityTests(unittest.TestCase):
+    def test_long_release_path_round_trip(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            relative = "release/" + "/".join(["nested_" + "a" * 40] * 5) + "/config.py"
+            path = safe_path(root, relative)
+            try:
+                path.parent.mkdir(parents=True)
+                path.write_bytes(b"source = 1\n")
+                manifest = {"schema_version": 1, "main": {"commit": "synthetic"},
+                            "files": {relative: {"size": path.stat().st_size,
+                                                 "sha256": digest(path)}}}
+                manifest_path = root / "source_manifest.json"
+                manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+                with contextlib.redirect_stdout(io.StringIO()):
+                    verify(root, manifest_path)
+            finally:
+                release = safe_path(root, "release")
+                if release.exists():
+                    shutil.rmtree(release)
+
     def test_windows_git_link_placeholder_is_materialized_safely(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
