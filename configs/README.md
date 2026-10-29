@@ -1,10 +1,11 @@
-# 实验配置入口（待实现）
+# Lightning配置规划
 
-后续配置使用 MMSegmentation 1.x 的 Python 配置继承与 Registry：
+配置采用可序列化数据，模型、数据、训练和推理职责分离。
+先使用标准JSON设计文件，后续如需YAML再显式解析并验证schema；不引入框架专属注册机制。
 
-- `custom_imports = dict(imports=['projects.sam2_rs_seg'], allow_failed_imports=False)`。
-- `default_scope = 'mmseg'`，训练/验证/测试统一用 MMEngine Runner。
-- 第一份完整配置面向 Potsdam RGB、Hiera Tiny、原生简单多尺度解码头。
-- 所有数据路径、类别表、ignore_index、标签协议必须显式记录。
+potsdam/hiera_tiny_lightning.plan.json明确标记design_only_not_runnable。
+模型类型仅为未来接口名称；checkpoint、数据划分和未确定训练参数为null。
+本轮没有配置加载器或训练命令，不能用该文件启动Trainer。
 
-当前只有目录占位，没有可运行训练配置；不要把本目录说明当作模型集成完成。
+后续入口计划显式构建普通PyTorch模型、LightningModule、LightningDataModule和Trainer；
+禁止配置中的任意字符串变成未经检查的动态代码执行。

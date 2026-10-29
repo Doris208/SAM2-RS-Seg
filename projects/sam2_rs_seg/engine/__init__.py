@@ -1,1 +1,1 @@
-"""Future HOOKS registrations, including source-version logging."""
+"""Future LightningModule, LightningDataModule and Trainer composition."""

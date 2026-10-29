@@ -10,7 +10,7 @@ import shutil
 import subprocess
 import sys
 
-SUBMODULES = ("third_party/sam2", "third_party/mmsegmentation", "third_party/GeoSeg")
+SUBMODULES = ("third_party/sam2", "third_party/GeoSeg")
 
 
 def git_executable():
@@ -50,7 +50,7 @@ def safe_path(root, relative):
     if not path.resolve().is_relative_to(root.resolve()):
         raise ValueError(f"Path escapes root: {relative}")
     if os.name == "nt":
-        # SAM2/MMSeg source names can exceed MAX_PATH after adding a release directory.
+        # Source names can exceed MAX_PATH after adding a release directory.
         prefix = "//?/".replace("/", os.sep)
         absolute = str(path.resolve())
         if not absolute.startswith(prefix):

@@ -1,22 +1,11 @@
-# Auxiliary runtime/build packages; only install on the future Linux GPU host.
-# Use -c requirements/constraints-gpu-candidate.txt.
-setuptools
-wheel
-ninja
-psutil
-mmengine
+# Install ONLY after inspecting the actual GPU container and reviewing a
+# --dry-run report with per-container constraints. This is not a lock file.
+lightning
+torchmetrics
 numpy
-opencv-python
 Pillow
 hydra-core
 iopath
 tqdm>=4.66.1
-matplotlib
-scipy
 packaging
-prettytable
-ftfy
-regex
-addict
 PyYAML
-yapf

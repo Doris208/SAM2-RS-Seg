@@ -1,34 +1,29 @@
-# 08 实际项目目录树
+# 08 当前Lightning主工程目录
 
-下面展开全部自有受控源码；第三方源码共2394个文件，完整展开见 [full_directory_tree.txt](full_directory_tree.txt)，逐文件路径见 [source_inventory.txt](source_inventory.txt)。
+任务02工作树包含自有文件43个、SAM2 569个、GeoSeg 67个受控文件；官方源码合计636个，当前源码文件合计679个。
 
-排除 Git 内部目录、Python缓存及运行产物。data/weights/outputs/deploy 为 Git 忽略的运行位置；deploy 在导出时创建。源码子模块实际位于本地，并非空占位。
+源码清单按当前迁移工作树统计；正式导出数用干净提交生成的manifest重新核验，不沿用任务01三子模块计数。
+
+完整展开见[full_directory_tree.txt](full_directory_tree.txt)，官方文件路径见[source_inventory.txt](source_inventory.txt)。排除.git、缓存及运行产物；不把历史.git/modules缓存当当前源码。
 
 ```text
 SAM2-RS-Seg/
 |-- configs/
-|   |-- _base_/
-|   |   |-- datasets/
-|   |   |   `-- .gitkeep
-|   |   |-- models/
-|   |   |   `-- .gitkeep
-|   |   `-- schedules/
-|   |       `-- .gitkeep
 |   |-- loveda/
 |   |   `-- .gitkeep
 |   |-- potsdam/
-|   |   `-- .gitkeep
+|   |   `-- hiera_tiny_lightning.plan.json
 |   |-- vaihingen/
 |   |   `-- .gitkeep
 |   `-- README.md
 |-- data/
-|   `-- [ignored]
+|   `-- [ignored runtime]
 |-- datasets/
 |   |-- __init__.py
 |   |-- label_contract.py
 |   `-- README.md
 |-- deploy/
-|   `-- [ignored]
+|   `-- [ignored runtime]
 |-- docs/
 |   |-- 01_architecture.md
 |   |-- 02_environment_compatibility.md
@@ -38,18 +33,21 @@ SAM2-RS-Seg/
 |   |-- 06_deployment.md
 |   |-- 07_validation.md
 |   |-- 08_directory_tree.md
+|   |-- 09_lightning_migration.md
 |   |-- full_directory_tree.txt
 |   `-- source_inventory.txt
 |-- outputs/
-|   `-- [ignored]
+|   `-- [ignored runtime]
 |-- projects/
 |   |-- sam2_rs_seg/
 |   |   |-- datasets/
 |   |   |   `-- __init__.py
 |   |   |-- engine/
-|   |   |   `-- __init__.py
+|   |   |   |-- __init__.py
+|   |   |   `-- README.md
 |   |   |-- evaluation/
-|   |   |   `-- __init__.py
+|   |   |   |-- __init__.py
+|   |   |   `-- README.md
 |   |   |-- models/
 |   |   |   |-- backbones/
 |   |   |   |   `-- __init__.py
@@ -69,19 +67,18 @@ SAM2-RS-Seg/
 |   `-- deployment_manifest.py
 |-- tests/
 |   |-- __init__.py
-|   `-- test_initialization.py
+|   |-- test_initialization.py
+|   `-- test_lightning_migration.py
 |-- third_party/
 |   |-- GeoSeg/
-|   |   `-- [official pinned source; see full tree]
-|   |-- mmsegmentation/
-|   |   `-- [official pinned source; see full tree]
+|   |   `-- [pinned official source]
 |   |-- sam2/
-|   |   `-- [official pinned source; see full tree]
+|   |   `-- [pinned official source]
 |   `-- versions.json
 |-- tools/
 |   `-- README.md
 |-- weights/
-|   `-- [ignored]
+|   `-- [ignored runtime]
 |-- .gitattributes
 |-- .gitignore
 |-- .gitmodules

@@ -1,83 +1,64 @@
-# 02 环境兼容性调研
+# 02 Lightning环境兼容性与候选
 
-核查日期：2026-10-29。已核对官方源码声明和部分官方 wheel 索引；
-**未在 Linux/RTX 4090 上安装、编译或运行，下面是待验证候选，不能称为已通过。**
+日期2026-10-29。已核查官方声明，未安装GPU依赖或连接服务器。
+MMSegmentation/MMCV/MMEngine已退出当前运行依赖；旧约束不再决定镜像选择。
 
-## 源码事实与候选选择
+## 优先验证并行智算云PyTorch25.03镜像
 
-| 组件 | 核查依据 / 限制 | 本工程候选 |
+用户指定该镜像为优先候选，先实测镜像本身，不强制锁定Python、CUDA、PyTorch或Lightning精确版本。
+平台镜像可能重新封装，不能从25.03名称或截断的Ubuntu标签推断内容。
+
+作为对照，NVIDIA原版25.03声明Ubuntu24.04、Python3.12、CUDA12.8.1和PyTorch
+2.7.0a0+7c8ec84dab，并带/etc/pip/constraint.txt。
+这不证明并行智算云镜像与原版相同，更不证明它与本工程完全兼容。
+不要沿用任务01中强制Python3.10/cu121的安装路线，也不自动替换镜像预装torch。
+
+## 声明、候选与未验证项
+
+| 组件 | 依据或待调查候选 | 当前结论 |
 |---|---|---|
-| 系统 | SAM2 INSTALL 推荐 Linux，Windows 推荐 WSL Ubuntu | Ubuntu 22.04 x86_64 |
-| Python | SAM2 setup.py 要求 >=3.10 | 3.10 独立环境 |
-| PyTorch | 当前固定 SAM2 setup.py 和 pyproject.toml 均要求 >=2.5.1 | 2.5.1 + cu121 |
-| torchvision | SAM2 >=0.20.1；PyTorch 官方给出配对 | 0.20.1 + cu121 |
-| CUDA runtime | 官方提供 torch 2.5.1 的 cu118/cu121/cu124 wheel | 12.1（随 PyTorch wheel） |
-| CUDA Toolkit | 编译扩展需要 nvcc，与 torch.version.cuda 匹配 | 12.1，远端 devel 环境 |
-| NVIDIA driver | 驱动必须支持所选 runtime 与 RTX 4090 | 建议 >=535，远端核验 |
-| MMCV | MMSeg 1.2.2 运行时断言 >=2.0.0rc4 且 <2.2.0 | 2.1.0，完整 ops 源码构建 |
-| MMEngine | MMSeg 断言 >=0.5.0 且 <1.0.0 | 0.10.7 |
-| MMSegmentation | 固定稳定 tag，不追随 main | 1.2.2 / c685fe6767c4cadf6b051983ca6208f1b9d1ccb8 |
-| SAM2 / SAM2.1 | 同一官方源码树含两代配置与模型支持 | 固定 2b90b9f5ceec907a1c18123530e92e794ad901a4 |
-| NumPy | SAM2 >=1.24.4；避免旧扩展与 NumPy 2 ABI 风险 | 1.26.4 |
-| GeoSeg | requirements含 timm 0.9.16、lightning 2.0.0、pytorch-lightning 2.3.0 | 仅阅读源码，不安装 |
+| Python | 固定SAM2声明>=3.10；Lightning2.5.5声明>=3.9 | 满足下限后先保留镜像版本 |
+| torch | 固定SAM2声明>=2.5.1 | 先核验镜像build，不强制2.5.1 |
+| torchvision | 固定SAM2声明>=0.20.1，与torch配套 | 需导入及算子检查；不要独立升级 |
+| Lightning | 先考察2.5.5，使用lightning.pytorch | requirements/pytorch/base.txt列torch>=2.1,<2.9用于CI |
+| TorchMetrics | 先考察1.7.4 | base.txt列torch>=2.0,<2.8用于CI |
+| CUDA/驱动 | 以torch.version.cuda、GPU和服务商驱动实测 | 不硬编码12.1；不自行替换系统驱动 |
+| SAM2 | 固定2b90b9f5ceec907a1c18123530e92e794ad901a4 | 源码已在本地，GPU运行未验证 |
+| NumPy/Pillow/Hydra/iopath | SAM2声明>=1.24.4 / >=9.4.0 / >=1.3.2 / >=0.1.10 | 先盘点镜像版本与ABI，不强制精确pin |
+| GeoSeg | 仅源码参考 | 不安装其Lightning/timm等依赖 |
 
-MMEngine 0.10.7 满足声明区间，但与这组 torch 的运行行为仍需实测。
-SAM2 的 Python 包元数据版本为 SAM-2 1.0，不能依赖它区分模型 2 与 2.1；
-必须记录 Git SHA、模型 YAML 和权重哈希。
-SAM2 早期版本的历史低版本 PyTorch 教程不适用于当前固定源码的安装要求。
+上表Lightning/TorchMetrics的上界在上游文件注释中说明用于CI稳定，发行安装时可能放宽；
+不能把源码CI范围当作对每种容器/开发版torch的兼容保证。
+NGC开发版torch即使满足数值下限，仍须实际导入、反传和Trainer smoke测试。
 
-## 关键：PyTorch 与 MMCV wheel
+requirements/constraints-gpu-candidate.txt仅有候选最低范围，
+requirements/gpu-bootstrap.txt列需要评估的运行依赖，二者都不是完整锁文件。
+本轮未调用pip安装，更不会自动解析“最新版本”替代验证。
+未来先在实际镜像选定版本、审阅dry-run，生成容器专用约束；
+通过检查后再保存全量freeze和源码清单，形成稳定组合。
+lightning发行包可能额外安装pytorch-lightning发行包；代码只用lightning.pytorch，
+记录二者版本，避免混用对象。--candidate只检查声明下限，不验证精确版本配对。
 
-1. 官方 `cu121/torch2.1/index.html` 可查到 Linux cp310 的 MMCV 2.1.0 wheel。
-   这是为 torch 2.1 构建的扩展，不能拿到 torch 2.5.1 环境中硬装。
-2. 官方 `cu121/torch2.3/index.html` 此次列出的为 MMCV 2.2.0 wheel；
-   MMSegmentation 1.2.2 会拒绝 2.2.0，不能靠删除版本断言规避。
-3. 尝试读取 `cu124/torch2.5/index.html` 未成功，本次未确认
-   torch 2.5.1 + MMCV <2.2 的官方匹配 wheel。访问失败不等于证明所有 wheel 都不存在。
-4. 因此主候选保留 SAM2 当前官方依赖，从源码构建 MMCV 2.1.0。
-   这在声明层面无直接版本区间冲突，但 C++/CUDA API 是否适配 torch 2.5.1
-   **尚未验证，可能构建失败**。构建和算子测试是后续工作的第一道关口。
-5. 不用 MIM 自动挑选未知 wheel，不允许安装时悄悄升级 torch/mmcv，
-   不把 mmcv-lite 当作完整 mmcv 的等价替代（MMSeg 会导入 ops）。
-   mmcv / mmcv-lite 共用命名空间，不应同时安装；MMCV 1.x 的 mmcv-full 也不适用。
+## 编译和运行风险
 
-候选选择用 SAM2 的最低当前官方 torch 要求限制变动范围，
-用 MMSeg 的严格上限选择 MMCV；不是“最新版本拼接”，也不是可复现运行锁文件。
-远端实测失败后应保存日志，再研究官方版本组合；本轮不降级 SAM2 依赖或修改第三方源码。
-可另建纯 MMSeg 验证环境（torch2.1.x + 配套 MMCV2.1 wheel）帮助隔离问题，
-但它不符合当前 SAM2 的官方要求，不能标注为本项目联合环境。
+- Hiera-only基线不需要当前已移除框架的自定义CUDA算子。
+  SAM2_BUILD_CUDA=0可跳过SAM2可选connected-components后处理。
+  无nvcc不应自动否决Hiera-only环境；未来启用该后处理扩展才核验Toolkit与torch runtime匹配。
+- nvidia-smi显示驱动能力；torch.version.cuda是torch构建runtime；
+  nvcc是可选扩展编译工具链，三者不是同一概念。
+- NVIDIA原版25.03有默认pip约束；平台是否继承须实际检查。
+  不直接编辑全局约束或用不匹配wheel覆盖；优先隔离环境保留可恢复基线。
+- TorchMetrics可选音频/图像包、torchvision算子、NumPy ABI可能导致导入失败；
+  需根据具体报错分析，而非无条件升级所有包。
+- 4090的SDPA、AMP/bfloat16、Hiera非方形尺寸、训练梯度和显存均未验证。
+  DDP与混合精度属于后续扩展，不是此次迁移的通过项。
 
-## CUDA 与系统风险
+## 来源
 
-- `nvidia-smi` 显示的是驱动支持能力，不等于已安装 Toolkit。
-  `torch.version.cuda` 是 wheel runtime，`nvcc --version` 才是 Toolkit。
-- RTX 4090 的计算能力为 8.9。源码构建可设 `TORCH_CUDA_ARCH_LIST=8.9`；
-  Ubuntu 22.04/GCC11 为候选，仍需核验 nvcc、GCC、内存及编译依赖。
-- 第一阶段只用 Hiera，远端先设 `SAM2_BUILD_CUDA=0` 跳过 SAM2 可选的
-  connected-components 后处理扩展；这不解决 MMCV ops 的构建需求。
-  未来使用官方 mask 后处理时再验证 SAM2 扩展。
-- SDPA、变长输入、AMP/bfloat16、位置嵌入插值、原生 Runner 的训练反传和
-  4090 24GB 显存占用仍未测试。首版建议 Tiny、512 crop、batch=1 做 smoke，
-  具体训练设置必须另行决定。
-- requirements 中固定 NumPy 1.26.4 与 OpenCV 4.10.0.84，防止新 OpenCV 依赖
-  引入 NumPy 2；其余辅助包仍是候选，最终以 pip check 和远端 freeze 为准。
-
-## 官方来源
-
-以下仓库链接使用本次固定 SHA，可直接与本地文件对照：
-
-- [SAM2 setup.py](https://github.com/facebookresearch/sam2/blob/2b90b9f5ceec907a1c18123530e92e794ad901a4/setup.py)
-- [SAM2 pyproject.toml](https://github.com/facebookresearch/sam2/blob/2b90b9f5ceec907a1c18123530e92e794ad901a4/pyproject.toml)
-- [SAM2 INSTALL](https://github.com/facebookresearch/sam2/blob/2b90b9f5ceec907a1c18123530e92e794ad901a4/INSTALL.md)
-- [MMSeg 运行时版本断言](https://github.com/open-mmlab/mmsegmentation/blob/c685fe6767c4cadf6b051983ca6208f1b9d1ccb8/mmseg/__init__.py)
-- [MMSeg 安装依赖](https://github.com/open-mmlab/mmsegmentation/blob/c685fe6767c4cadf6b051983ca6208f1b9d1ccb8/requirements/mminstall.txt)
-- [GeoSeg requirements](https://github.com/WangLibo1995/GeoSeg/blob/9453fe48209c4626b29e35e61bab93b61212c4b1/requirements.txt)
-- [PyTorch 官方历史版本与配对命令](https://pytorch.org/get-started/previous-versions/)
-- [MMCV 官方源码构建指南 v2.1.0](https://github.com/open-mmlab/mmcv/blob/v2.1.0/docs/en/get_started/build.md)
-- [MMCV cu121 / torch2.1 索引](https://download.openmmlab.com/mmcv/dist/cu121/torch2.1/index.html)
-- [MMCV cu121 / torch2.3 索引](https://download.openmmlab.com/mmcv/dist/cu121/torch2.3/index.html)
-- [未成功访问的 cu124 / torch2.5 索引](https://download.openmmlab.com/mmcv/dist/cu124/torch2.5/index.html)
-- [NVIDIA CUDA GPU 能力表](https://developer.nvidia.com/cuda-gpus)
-
-本地默认检查脚本只读取元数据与 nvcc/nvidia-smi 的版本信息，不安装任何软件。
-深度检查可选启用，成功也仅代表少量导入/算子测试，不代表模型训练完成。
+- [固定SAM2依赖](https://github.com/facebookresearch/sam2/blob/2b90b9f5ceec907a1c18123530e92e794ad901a4/setup.py)
+- [固定SAM2构建声明](https://github.com/facebookresearch/sam2/blob/2b90b9f5ceec907a1c18123530e92e794ad901a4/pyproject.toml)
+- [Lightning2.5.5依赖](https://github.com/Lightning-AI/pytorch-lightning/blob/2.5.5/requirements/pytorch/base.txt)
+- [Lightning2.5.5打包/Python声明](https://github.com/Lightning-AI/pytorch-lightning/blob/2.5.5/src/lightning/__setup__.py)
+- [TorchMetrics1.7.4依赖](https://github.com/Lightning-AI/torchmetrics/blob/v1.7.4/requirements/base.txt)
+- [NVIDIA25.03对照说明](https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/rel-25-03.html)
+- [PyTorch官方版本配对](https://pytorch.org/get-started/previous-versions/)

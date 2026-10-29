@@ -8,12 +8,6 @@
       "commit": "2b90b9f5ceec907a1c18123530e92e794ad901a4",
       "selection": "official main snapshot with SAM2 and SAM2.1 configs; detached HEAD"
     },
-    "mmsegmentation": {
-      "path": "third_party/mmsegmentation",
-      "url": "https://github.com/open-mmlab/mmsegmentation",
-      "commit": "c685fe6767c4cadf6b051983ca6208f1b9d1ccb8",
-      "selection": "v1.2.2; detached HEAD"
-    },
     "GeoSeg": {
       "path": "third_party/GeoSeg",
       "url": "https://github.com/WangLibo1995/GeoSeg",

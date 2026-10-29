@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "status": "design_only_not_runnable",
+  "framework": "lightning.pytorch",
+  "experiment": "potsdam_rgb_hiera_tiny_supervised",
+  "model": {
+    "backbone": {
+      "type": "SAM2HieraBackbone",
+      "implemented": false,
+      "official_config": "configs/sam2.1/sam2.1_hiera_t.yaml",
+      "feature_source": "trunk",
+      "expected_channels": [96, 192, 384, 768],
+      "expected_strides": [4, 8, 16, 32],
+      "checkpoint": null
+    },
+    "decoder": {"type": "SimpleMultiScaleDecoder", "implemented": false},
+    "num_classes": 6,
+    "prompt_branch_enabled": false
+  },
+  "data": {
+    "dataset": "potsdam",
+    "modality": "RGB",
+    "input_channels": 3,
+    "train_id_range": [0, 5],
+    "ignore_index": 255,
+    "label_resize": "nearest",
+    "label_mapping": "explicit_isprs_rgb_to_ids_once",
+    "split_unit": "original_tile_before_cropping",
+    "train_manifest": null,
+    "val_manifest": null,
+    "test_manifest": null
+  },
+  "training": {
+    "loss": "CrossEntropyLoss",
+    "ignore_index": 255,
+    "optimizer": "AdamW",
+    "learning_rate": null,
+    "batch_size": null,
+    "max_epochs": null,
+    "precision": null
+  },
+  "evaluation": {
+    "state": "TorchMetrics_MulticlassConfusionMatrix",
+    "metrics": ["mIoU", "per_class_IoU", "mF1", "OA"],
+    "absent_class": "nan_excluded_from_macro_when_denominator_zero",
+    "range": [0, 1],
+    "checkpoint_monitor": "val_mIoU",
+    "checkpoint_mode": "max",
+    "ignore_index": 255
+  },
+  "inference": {
+    "id_png": "uint8_single_channel",
+    "color_png": "separate_RGB_palette",
+    "sliding_window": "future_logits_blending_then_argmax"
+  }
+}

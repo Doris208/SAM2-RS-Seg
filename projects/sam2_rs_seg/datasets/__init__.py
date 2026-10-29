@@ -1,1 +1,1 @@
-"""Future DATASETS and TRANSFORMS registrations."""
+"""Future torch Dataset implementations with explicit label contracts."""

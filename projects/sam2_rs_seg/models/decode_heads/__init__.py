@@ -1,1 +1,1 @@
-"""Reserved for semantic heads; first baseline uses a native MMSeg head."""
+"""Future simple multiscale PyTorch decoder returning K-channel logits."""

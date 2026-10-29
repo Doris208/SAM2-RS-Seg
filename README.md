@@ -1,86 +1,77 @@
 # SAM2-RS-Seg
 
-基于 **MMSegmentation 1.x + Meta 官方 SAM2-Hiera** 的遥感全监督多类别语义分割科研工程。
-唯一主工作区：`D:\Research\SAM2-RS-Seg`。工作方式为本地开发和 Git 提交、Linux RTX 4090 上运行。
+基于 **原生 PyTorch + PyTorch Lightning + TorchMetrics + Meta 官方 SAM2/SAM2.1** 的遥感全监督多类别语义分割科研工程。
 
-**当前阶段：任务 01 初始化完成范围。模型集成、GPU 环境安装、训练和推理均待后续实现与验证。**
-本轮不包含数据集或预训练权重，不包含可运行的训练配置。
+唯一主工作区：D:\Research\SAM2-RS-Seg。GitHub：https://github.com/Doris208/SAM2-RS-Seg
+任务02迁移分支：refactor/lightning-backend；按用户追加授权，检查后直接提交并同步该分支。
 
-## 目标与边界
+**当前只完成工程底座、接口设计及辅助工具。Hiera适配器、语义头、Lightning训练模块和数据加载器均未实现，没有可运行训练配置或训练结果。**
 
-第一阶段：三通道影像 → 预训练 Hiera 多尺度特征 → 简单语义解码器 → 类别预测。
-优先 Potsdam RGB，然后 Vaihingen 和 LoveDA **2021**。
-未来目标包含 train/val/test、mIoU、各类 IoU、mF1、OA、最佳 checkpoint、
-单通道 ID PNG、RGB 语义图，以及滑窗和整图拼接。
-原始 SAM2 Prompt Encoder / Mask Decoder 的独立接口在架构中保留。
+## 技术分工
 
-MMSegmentation 是唯一主训练框架；SAM2 提供基础模型；GeoSeg 仅供数据与大图推理参考。
-不复制 SAM2-UNet 或 MmSAM，不引入额外创新模块，不修改第三方核心源码。
+- 原生PyTorch：Hiera适配、多尺度语义解码、损失和优化器。
+- PyTorch Lightning：唯一训练管理框架，未来统一使用lightning.pytorch命名空间。
+- TorchMetrics：累积分类统计量、计算与导出mIoU/逐类IoU/mF1/OA。
+- 官方SAM2：固定源码提供Hiera，保留原始Prompt Encoder/Mask Decoder独立扩展。
+- GeoSeg：只参考数据、裁片和整图推理，不安装其训练依赖或复制其主框架。
 
-## 源码与文档
+任务02取消MMSegmentation、MMCV、MMEngine运行依赖；原任务01事实保留在历史记录中。
 
-| 位置 | 用途 |
+## 模型与数据目标
+
+三通道影像 → 官方Hiera Tiny多尺度特征 → 简单PyTorch语义头 → K通道logits。
+完整人工GT全监督，Potsdam RGB优先，后续Vaihingen IRRG与LoveDA2021 RGB。
+ignore_index=255；Mask最近邻缩放；按原始tile划分后再裁块。
+未来实现验证集mIoU保存最佳模型、类别ID PNG、RGB图、滑窗logits融合与整图拼接。
+提示掩膜分支与多类别语义预测保持独立，不在本阶段加入创新模块。
+
+## 工程入口
+
+| 路径 | 当前职责 |
 |---|---|
-| `configs/` | 原生配置的占位目录 |
-| `projects/sam2_rs_seg/` | 自定义 Registry 模块命名空间，当前仅占位 |
-| `datasets/` | 数据准备源码与最小标签契约 |
-| `tools/` | 未来必要的实验辅助入口 |
-| `scripts/` | 环境盘点、版本清单、源码导出和文件校验 |
-| `tests/` | 合成数据格式和部署完整性测试 |
-| `third_party/` | 三个完整官方源码子模块及版本记录 |
-| `outputs/`, `data/`, `weights/`, `deploy/` | 本地运行目录，Git 忽略 |
+| configs/ | 分离模型/数据/训练/推理配置；.plan.json仅设计，不能启动训练 |
+| projects/sam2_rs_seg/models/ | backbones、decode_heads、prompt_adapters接口命名空间 |
+| projects/sam2_rs_seg/datasets/ | 未来原生Dataset |
+| projects/sam2_rs_seg/engine/ | 未来LightningModule、LightningDataModule与Trainer |
+| projects/sam2_rs_seg/evaluation/ | 未来TorchMetrics状态与结构化结果 |
+| datasets/label_contract.py | 已实现的通用标签契约，保持原编号不变 |
+| scripts/ | 环境盘点、两子模块版本/哈希清单、源码导出与校验 |
+| tests/ | 无GPU基础测试 |
+| data/、weights/、outputs/、deploy/ | Git忽略的运行文件位置 |
 
-- [架构与接口](docs/01_architecture.md)
-- [依赖兼容性与官方依据](docs/02_environment_compatibility.md)
-- [租赁 GPU 后的安装命令](docs/03_gpu_setup_plan.md)
-- [数据集、标签及评价协议](docs/04_dataset_plan.md)
-- [后续实现步骤](docs/05_implementation_steps.md)
-- [Git / FileZilla 部署一致性](docs/06_deployment.md)
-- [本轮核验记录](docs/07_validation.md)
-- [完整项目目录树与第三方文件清单](docs/08_directory_tree.md)
+## 保留的两个子模块
 
-## 当前固定源码
-
-| 子模块 | 版本 / Commit |
+| 源码 | 固定Commit |
 |---|---|
-| MMSegmentation | v1.2.2 / `c685fe6767c4cadf6b051983ca6208f1b9d1ccb8` |
-| SAM2（含 SAM2.1） | `2b90b9f5ceec907a1c18123530e92e794ad901a4` |
-| GeoSeg | `9453fe48209c4626b29e35e61bab93b61212c4b1` |
+| third_party/sam2 | 2b90b9f5ceec907a1c18123530e92e794ad901a4 |
+| third_party/GeoSeg | 9453fe48209c4626b29e35e61bab93b61212c4b1 |
 
-三者实际源码位于 `third_party/`，由主仓库 gitlink 固定版本；
-准确来源另见 `third_party/versions.json`。这些是源码快照，**尚未通过联合环境运行验证**。
-已有本地完整源码，无须再次下载。以后从其他位置克隆本工程才需要：
+实际完整源码已经存在，不重新克隆或升级。第三方checkout未修改。
+移除的旧子模块内部历史元数据保留在.git/modules中，不是当前受控源码，不上传SFTP。
+从未来已提交的迁移版本重新克隆后才执行git submodule update --init --recursive。
 
-```bash
-git submodule update --init --recursive
-git submodule status
-```
+## 本地检查
 
-## 本地安全检查
-
-从项目根目录执行，无需 GPU，不安装依赖：
-
-```powershell
-python scripts/check_environment.py --json outputs/local_environment.json
+~~~powershell
+python scripts/check_environment.py --json outputs/lightning_environment.json
 python -m unittest discover -s tests -v
-python scripts/deployment_manifest.py create --require-clean --output outputs/version_manifest.json
-```
+~~~
 
-默认环境检查只读取安装元数据。缺少 GPU 框架会报告缺失，盘点成功不表示模型环境通过。
-`--runtime --require-gpu --candidate` 仅供远端安装完成后使用。
+默认环境盘点只读取包元数据，不导入深度学习框架；缺少依赖/无GPU时仍可完成盘点。
+--runtime显式启用CPU导入/反传/合成指标；--require-gpu显式启用CUDA，未在本机验证。
+--candidate仅检查候选最低声明，不再锁死Python/CUDA/PyTorch/Lightning精确版本。
 
-候选环境为 Ubuntu 22.04、Python 3.10、PyTorch 2.5.1/cu121、torchvision 0.20.1、
-MMEngine 0.10.7、MMSegmentation 1.2.2、**从源码构建 MMCV 2.1.0**。
-当前没有确认可直接使用的匹配 MMCV wheel；必须先通过远端构建及算子检查。
+并行智算云PyTorch25.03是优先调查候选，必须先读取实际镜像内容。
+Lightning2.5.5与TorchMetrics1.7.4是待考察候选，不是已通过环境。
+不因为基础镜像名称就自动升级或降级其预装PyTorch。
 
-## SourceTree
+## 文档与版本管理
 
-在 SourceTree 选择“添加 / Add”已有本地仓库，路径填入
-`D:\Research\SAM2-RS-Seg`，确认后打开。主分支为 `main`，
-子模块为有意固定的 detached HEAD，不要对其直接提交改动。
-也可通过“文件 → 打开”选择此目录；无需创建远端仓库。
-最终检查时主仓库已有 `origin=git@github.com:Doris208/SAM2-RS-Seg.git`。
-本轮未执行配置远端、创建 GitHub 仓库或 push，保留现有设置。
+- [架构](docs/01_architecture.md)、[依赖](docs/02_environment_compatibility.md)、[GPU计划](docs/03_gpu_setup_plan.md)
+- [数据协议](docs/04_dataset_plan.md)、[实施步骤](docs/05_implementation_steps.md)、[两子模块部署](docs/06_deployment.md)
+- [任务01历史核验](docs/07_validation.md)、[当前结构](docs/08_directory_tree.md)、[任务02迁移记录](docs/09_lightning_migration.md)
 
-后续只在此工程继续开发。科研数据、权重、输出和凭据不得加入源码提交。
-第三方各自许可证随源码保留；GeoSeg 为 GPL-3.0，未来如复制其实现应另行检查分发义务。
+SourceTree继续管理同一路径。main及其历史保留；origin沿用现有GitHub配置。
+git rm规范移除旧子模块；提交前检查差异、测试和子模块状态，不要求用户手动审查。
+**正式--require-clean源码导出基于干净的迁移提交验收；旧deploy/快照仅作历史。**
+GeoSeg保留GPL-3.0许可证；未来如复制实现须考虑其分发义务。
