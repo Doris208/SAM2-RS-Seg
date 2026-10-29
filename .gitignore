@@ -3,6 +3,7 @@
 /weights/
 /checkpoints/
 /outputs/
+/shared-nvme/
 /work_dirs/
 /deploy/
 /tmp/
