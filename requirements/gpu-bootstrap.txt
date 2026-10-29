@@ -1,0 +1,22 @@
+# Auxiliary runtime/build packages; only install on the future Linux GPU host.
+# Use -c requirements/constraints-gpu-candidate.txt.
+setuptools
+wheel
+ninja
+psutil
+mmengine
+numpy
+opencv-python
+Pillow
+hydra-core
+iopath
+tqdm>=4.66.1
+matplotlib
+scipy
+packaging
+prettytable
+ftfy
+regex
+addict
+PyYAML
+yapf

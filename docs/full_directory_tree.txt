@@ -1,0 +1,2960 @@
+SAM2-RS-Seg/
+|-- configs/
+|   |-- _base_/
+|   |   |-- datasets/
+|   |   |   `-- .gitkeep
+|   |   |-- models/
+|   |   |   `-- .gitkeep
+|   |   `-- schedules/
+|   |       `-- .gitkeep
+|   |-- loveda/
+|   |   `-- .gitkeep
+|   |-- potsdam/
+|   |   `-- .gitkeep
+|   |-- vaihingen/
+|   |   `-- .gitkeep
+|   `-- README.md
+|-- data/
+|   `-- [ignored]
+|-- datasets/
+|   |-- __init__.py
+|   |-- label_contract.py
+|   `-- README.md
+|-- deploy/
+|   `-- [ignored]
+|-- docs/
+|   |-- 01_architecture.md
+|   |-- 02_environment_compatibility.md
+|   |-- 03_gpu_setup_plan.md
+|   |-- 04_dataset_plan.md
+|   |-- 05_implementation_steps.md
+|   |-- 06_deployment.md
+|   |-- 07_validation.md
+|   |-- 08_directory_tree.md
+|   |-- full_directory_tree.txt
+|   `-- source_inventory.txt
+|-- outputs/
+|   `-- [ignored]
+|-- projects/
+|   |-- sam2_rs_seg/
+|   |   |-- datasets/
+|   |   |   `-- __init__.py
+|   |   |-- engine/
+|   |   |   `-- __init__.py
+|   |   |-- evaluation/
+|   |   |   `-- __init__.py
+|   |   |-- models/
+|   |   |   |-- backbones/
+|   |   |   |   `-- __init__.py
+|   |   |   |-- decode_heads/
+|   |   |   |   `-- __init__.py
+|   |   |   |-- prompt_adapters/
+|   |   |   |   `-- __init__.py
+|   |   |   `-- __init__.py
+|   |   `-- __init__.py
+|   `-- __init__.py
+|-- requirements/
+|   |-- constraints-gpu-candidate.txt
+|   `-- gpu-bootstrap.txt
+|-- scripts/
+|   |-- __init__.py
+|   |-- check_environment.py
+|   `-- deployment_manifest.py
+|-- tests/
+|   |-- __init__.py
+|   `-- test_initialization.py
+|-- third_party/
+|   |-- GeoSeg/
+|   |   |-- config/
+|   |   |   |-- loveda/
+|   |   |   |   |-- __pycache__/
+|   |   |   |   |   |-- banet.cpython-38.pyc
+|   |   |   |   |   |-- dc-swin.cpython-38.pyc
+|   |   |   |   |   |-- segmenter.cpython-38.pyc
+|   |   |   |   |   |-- swinunet.cpython-38.pyc
+|   |   |   |   |   |-- swinupernet.cpython-38.pyc
+|   |   |   |   |   |-- transunet.cpython-38.pyc
+|   |   |   |   |   `-- unetformer-r50.cpython-38.pyc
+|   |   |   |   |-- dcswin.py
+|   |   |   |   `-- unetformer.py
+|   |   |   |-- potsdam/
+|   |   |   |   |-- dcswin.py
+|   |   |   |   |-- ftunetformer.py
+|   |   |   |   `-- unetformer.py
+|   |   |   |-- uavid/
+|   |   |   |   `-- unetformer.py
+|   |   |   `-- vaihingen/
+|   |   |       |-- dcswin.py
+|   |   |       |-- ftunetformer.py
+|   |   |       `-- unetformer.py
+|   |   |-- geoseg/
+|   |   |   |-- datasets/
+|   |   |   |   |-- __init__.py
+|   |   |   |   |-- loveda_dataset.py
+|   |   |   |   |-- potsdam_dataset.py
+|   |   |   |   |-- transform.py
+|   |   |   |   |-- uavid_dataset.py
+|   |   |   |   `-- vaihingen_dataset.py
+|   |   |   |-- losses/
+|   |   |   |   |-- __init__.py
+|   |   |   |   |-- balanced_bce.py
+|   |   |   |   |-- bitempered_loss.py
+|   |   |   |   |-- cel1.py
+|   |   |   |   |-- dice.py
+|   |   |   |   |-- focal.py
+|   |   |   |   |-- focal_cosine.py
+|   |   |   |   |-- functional.py
+|   |   |   |   |-- jaccard.py
+|   |   |   |   |-- joint_loss.py
+|   |   |   |   |-- lovasz.py
+|   |   |   |   |-- soft_bce.py
+|   |   |   |   |-- soft_ce.py
+|   |   |   |   |-- soft_f1.py
+|   |   |   |   |-- useful_loss.py
+|   |   |   |   `-- wing_loss.py
+|   |   |   |-- models/
+|   |   |   |   |-- __init__.py
+|   |   |   |   |-- A2FPN.py
+|   |   |   |   |-- ABCNet.py
+|   |   |   |   |-- BANet.py
+|   |   |   |   |-- DCSwin.py
+|   |   |   |   |-- FTUNetFormer.py
+|   |   |   |   |-- MANet.py
+|   |   |   |   |-- PyramidMamba.py
+|   |   |   |   `-- UNetFormer.py
+|   |   |   `-- __init__.py
+|   |   |-- tools/
+|   |   |   |-- __init__.py
+|   |   |   |-- cfg.py
+|   |   |   |-- loveda_mask_convert.py
+|   |   |   |-- metric.py
+|   |   |   |-- potsdam_patch_split.py
+|   |   |   |-- uavid_patch_split.py
+|   |   |   |-- utils.py
+|   |   |   `-- vaihingen_patch_split.py
+|   |   |-- inference_huge_image.py
+|   |   |-- inference_uavid.py
+|   |   |-- LICENSE
+|   |   |-- loveda_test.py
+|   |   |-- pot.png
+|   |   |-- potsdam_test.py
+|   |   |-- README.md
+|   |   |-- requirements.txt
+|   |   |-- train_supervision.py
+|   |   |-- vai.png
+|   |   `-- vaihingen_test.py
+|   |-- mmsegmentation/
+|   |   |-- .circleci/
+|   |   |   |-- docker/
+|   |   |   |   `-- Dockerfile
+|   |   |   |-- config.yml
+|   |   |   `-- test.yml
+|   |   |-- .dev_scripts/
+|   |   |   |-- log_collector/
+|   |   |   |   |-- example_config.py
+|   |   |   |   |-- log_collector.py
+|   |   |   |   |-- readme.md
+|   |   |   |   `-- utils.py
+|   |   |   |-- batch_test_list.py
+|   |   |   |-- batch_train_list.txt
+|   |   |   |-- benchmark_evaluation.sh
+|   |   |   |-- benchmark_full_models.txt
+|   |   |   |-- benchmark_inference.py
+|   |   |   |-- benchmark_options.py
+|   |   |   |-- benchmark_train.sh
+|   |   |   |-- benchmark_train_models.txt
+|   |   |   |-- check_urls.py
+|   |   |   |-- gather_benchmark_evaluation_results.py
+|   |   |   |-- gather_benchmark_train_results.py
+|   |   |   |-- gather_models.py
+|   |   |   |-- generate_benchmark_evaluation_script.py
+|   |   |   |-- generate_benchmark_train_script.py
+|   |   |   |-- update_model_index.py
+|   |   |   `-- upload_modelzoo.py
+|   |   |-- .github/
+|   |   |   |-- ISSUE_TEMPLATE/
+|   |   |   |   |-- config.yml
+|   |   |   |   |-- error-report.md
+|   |   |   |   |-- feature_request.md
+|   |   |   |   |-- general_questions.md
+|   |   |   |   `-- reimplementation_questions.md
+|   |   |   |-- workflows/
+|   |   |   |   `-- deploy.yml
+|   |   |   |-- CODE_OF_CONDUCT.md
+|   |   |   |-- CONTRIBUTING.md
+|   |   |   `-- pull_request_template.md
+|   |   |-- configs/
+|   |   |   |-- _base_/
+|   |   |   |   |-- datasets/
+|   |   |   |   |   |-- ade20k.py
+|   |   |   |   |   |-- ade20k_640x640.py
+|   |   |   |   |   |-- bdd100k.py
+|   |   |   |   |   |-- chase_db1.py
+|   |   |   |   |   |-- cityscapes.py
+|   |   |   |   |   |-- cityscapes_1024x1024.py
+|   |   |   |   |   |-- cityscapes_768x768.py
+|   |   |   |   |   |-- cityscapes_769x769.py
+|   |   |   |   |   |-- cityscapes_832x832.py
+|   |   |   |   |   |-- coco-stuff10k.py
+|   |   |   |   |   |-- coco-stuff164k.py
+|   |   |   |   |   |-- drive.py
+|   |   |   |   |   |-- hrf.py
+|   |   |   |   |   |-- isaid.py
+|   |   |   |   |   |-- levir_256x256.py
+|   |   |   |   |   |-- loveda.py
+|   |   |   |   |   |-- mapillary_v1.py
+|   |   |   |   |   |-- mapillary_v1_65.py
+|   |   |   |   |   |-- mapillary_v2.py
+|   |   |   |   |   |-- nyu.py
+|   |   |   |   |   |-- nyu_512x512.py
+|   |   |   |   |   |-- pascal_context.py
+|   |   |   |   |   |-- pascal_context_59.py
+|   |   |   |   |   |-- pascal_voc12.py
+|   |   |   |   |   |-- pascal_voc12_aug.py
+|   |   |   |   |   |-- potsdam.py
+|   |   |   |   |   |-- refuge.py
+|   |   |   |   |   |-- stare.py
+|   |   |   |   |   |-- synapse.py
+|   |   |   |   |   `-- vaihingen.py
+|   |   |   |   |-- models/
+|   |   |   |   |   |-- ann_r50-d8.py
+|   |   |   |   |   |-- apcnet_r50-d8.py
+|   |   |   |   |   |-- bisenetv1_r18-d32.py
+|   |   |   |   |   |-- bisenetv2.py
+|   |   |   |   |   |-- ccnet_r50-d8.py
+|   |   |   |   |   |-- cgnet.py
+|   |   |   |   |   |-- danet_r50-d8.py
+|   |   |   |   |   |-- deeplabv3_r50-d8.py
+|   |   |   |   |   |-- deeplabv3_unet_s5-d16.py
+|   |   |   |   |   |-- deeplabv3plus_r50-d8.py
+|   |   |   |   |   |-- dmnet_r50-d8.py
+|   |   |   |   |   |-- dnl_r50-d8.py
+|   |   |   |   |   |-- dpt_vit-b16.py
+|   |   |   |   |   |-- emanet_r50-d8.py
+|   |   |   |   |   |-- encnet_r50-d8.py
+|   |   |   |   |   |-- erfnet_fcn.py
+|   |   |   |   |   |-- fast_scnn.py
+|   |   |   |   |   |-- fastfcn_r50-d32_jpu_psp.py
+|   |   |   |   |   |-- fcn_hr18.py
+|   |   |   |   |   |-- fcn_r50-d8.py
+|   |   |   |   |   |-- fcn_unet_s5-d16.py
+|   |   |   |   |   |-- fpn_poolformer_s12.py
+|   |   |   |   |   |-- fpn_r50.py
+|   |   |   |   |   |-- gcnet_r50-d8.py
+|   |   |   |   |   |-- icnet_r50-d8.py
+|   |   |   |   |   |-- isanet_r50-d8.py
+|   |   |   |   |   |-- lraspp_m-v3-d8.py
+|   |   |   |   |   |-- nonlocal_r50-d8.py
+|   |   |   |   |   |-- ocrnet_hr18.py
+|   |   |   |   |   |-- ocrnet_r50-d8.py
+|   |   |   |   |   |-- pointrend_r50.py
+|   |   |   |   |   |-- psanet_r50-d8.py
+|   |   |   |   |   |-- pspnet_r50-d8.py
+|   |   |   |   |   |-- pspnet_unet_s5-d16.py
+|   |   |   |   |   |-- san_vit-b16.py
+|   |   |   |   |   |-- segformer_mit-b0.py
+|   |   |   |   |   |-- segmenter_vit-b16_mask.py
+|   |   |   |   |   |-- setr_mla.py
+|   |   |   |   |   |-- setr_naive.py
+|   |   |   |   |   |-- setr_pup.py
+|   |   |   |   |   |-- stdc.py
+|   |   |   |   |   |-- twins_pcpvt-s_fpn.py
+|   |   |   |   |   |-- twins_pcpvt-s_upernet.py
+|   |   |   |   |   |-- upernet_beit.py
+|   |   |   |   |   |-- upernet_convnext.py
+|   |   |   |   |   |-- upernet_mae.py
+|   |   |   |   |   |-- upernet_r50.py
+|   |   |   |   |   |-- upernet_swin.py
+|   |   |   |   |   |-- upernet_vit-b16_ln_mln.py
+|   |   |   |   |   `-- vpd_sd.py
+|   |   |   |   |-- schedules/
+|   |   |   |   |   |-- schedule_160k.py
+|   |   |   |   |   |-- schedule_20k.py
+|   |   |   |   |   |-- schedule_240k.py
+|   |   |   |   |   |-- schedule_25k.py
+|   |   |   |   |   |-- schedule_320k.py
+|   |   |   |   |   |-- schedule_40k.py
+|   |   |   |   |   `-- schedule_80k.py
+|   |   |   |   `-- default_runtime.py
+|   |   |   |-- ann/
+|   |   |   |   |-- ann_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- ann_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- ann_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- ann_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- ann_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- ann_r101-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- ann_r101-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- ann_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- ann_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- ann_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- ann_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- ann_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- ann_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- ann_r50-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- ann_r50-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- ann_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- apcnet/
+|   |   |   |   |-- apcnet_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- apcnet_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- apcnet_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- apcnet_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- apcnet_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- apcnet_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- apcnet_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- apcnet_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- apcnet_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- apcnet_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- apcnet_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- apcnet_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- beit/
+|   |   |   |   |-- beit-base_upernet_8xb2-160k_ade20k-640x640.py
+|   |   |   |   |-- beit-base_upernet_8xb2-160k_ade20k-640x640_ms.py
+|   |   |   |   |-- beit-large_upernet_8xb1-amp-160k_ade20k-640x640.py
+|   |   |   |   |-- beit-large_upernet_8xb1-amp-160k_ade20k-640x640_ms.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- bisenetv1/
+|   |   |   |   |-- bisenetv1_r101-d32-in1k-pre_4xb4-160k_coco-stuff164k-512x512.py
+|   |   |   |   |-- bisenetv1_r101-d32_4xb4-160k_coco-stuff164k-512x512.py
+|   |   |   |   |-- bisenetv1_r18-d32-in1k-pre_4xb4-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- bisenetv1_r18-d32-in1k-pre_4xb4-160k_coco-stuff164k-512x512.py
+|   |   |   |   |-- bisenetv1_r18-d32-in1k-pre_4xb8-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- bisenetv1_r18-d32_4xb4-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- bisenetv1_r18-d32_4xb4-160k_coco-stuff164k-512x512.py
+|   |   |   |   |-- bisenetv1_r50-d32-in1k-pre_4xb4-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- bisenetv1_r50-d32-in1k-pre_4xb4-160k_coco-stuff164k-512x512.py
+|   |   |   |   |-- bisenetv1_r50-d32_4xb4-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- bisenetv1_r50-d32_4xb4-160k_coco-stuff164k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- bisenetv2/
+|   |   |   |   |-- bisenetv2_fcn_4xb4-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- bisenetv2_fcn_4xb4-amp-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- bisenetv2_fcn_4xb4-ohem-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- bisenetv2_fcn_4xb8-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- ccnet/
+|   |   |   |   |-- ccnet_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- ccnet_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- ccnet_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- ccnet_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- ccnet_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- ccnet_r101-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- ccnet_r101-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- ccnet_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- ccnet_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- ccnet_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- ccnet_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- ccnet_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- ccnet_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- ccnet_r50-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- ccnet_r50-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- ccnet_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- cgnet/
+|   |   |   |   |-- cgnet_fcn_4xb4-60k_cityscapes-680x680.py
+|   |   |   |   |-- cgnet_fcn_4xb8-60k_cityscapes-512x1024.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- convnext/
+|   |   |   |   |-- convnext-base_upernet_8xb2-amp-160k_ade20k-512x512.py
+|   |   |   |   |-- convnext-base_upernet_8xb2-amp-160k_ade20k-640x640.py
+|   |   |   |   |-- convnext-large_upernet_8xb2-amp-160k_ade20k-640x640.py
+|   |   |   |   |-- convnext-small_upernet_8xb2-amp-160k_ade20k-512x512.py
+|   |   |   |   |-- convnext-tiny_upernet_8xb2-amp-160k_ade20k-512x512.py
+|   |   |   |   |-- convnext-xlarge_upernet_8xb2-amp-160k_ade20k-640x640.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- danet/
+|   |   |   |   |-- danet_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- danet_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- danet_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- danet_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- danet_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- danet_r101-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- danet_r101-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- danet_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- danet_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- danet_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- danet_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- danet_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- danet_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- danet_r50-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- danet_r50-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- danet_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- ddrnet/
+|   |   |   |   |-- ddrnet_23-slim_in1k-pre_2xb6-120k_cityscapes-1024x1024.py
+|   |   |   |   |-- ddrnet_23_in1k-pre_2xb6-120k_cityscapes-1024x1024.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- deeplabv3/
+|   |   |   |   |-- deeplabv3_r101-d16-mg124_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3_r101-d16-mg124_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb2-amp-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb4-160k_coco-stuff164k-512x512.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb4-20k_coco-stuff10k-512x512.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb4-320k_coco-stuff164k-512x512.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb4-40k_coco-stuff10k-512x512.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb4-40k_pascal-context-480x480.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb4-40k_pascal-context-59-480x480.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb4-80k_coco-stuff164k-512x512.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb4-80k_pascal-context-480x480.py
+|   |   |   |   |-- deeplabv3_r101-d8_4xb4-80k_pascal-context-59-480x480.py
+|   |   |   |   |-- deeplabv3_r101b-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3_r101b-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- deeplabv3_r18-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3_r18-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- deeplabv3_r18b-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3_r18b-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb4-160k_coco-stuff164k-512x512.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb4-20k_coco-stuff10k-512x512.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb4-320k_coco-stuff164k-512x512.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb4-40k_coco-stuff10k-512x512.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb4-40k_pascal-context-480x480.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb4-40k_pascal-context-59-480x480.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb4-80k_coco-stuff164k-512x512.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb4-80k_pascal-context-480x480.py
+|   |   |   |   |-- deeplabv3_r50-d8_4xb4-80k_pascal-context-59-480x480.py
+|   |   |   |   |-- deeplabv3_r50b-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3_r50b-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- deeplabv3plus/
+|   |   |   |   |-- deeplabv3plus_r101-d16-mg124_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3plus_r101-d16-mg124_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb2-amp-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb4-40k_pascal-context-480x480.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb4-40k_pascal-context-59-480x480.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb4-80k_loveda-512x512.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb4-80k_pascal-context-480x480.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb4-80k_pascal-context-59-480x480.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb4-80k_potsdam-512x512.py
+|   |   |   |   |-- deeplabv3plus_r101-d8_4xb4-80k_vaihingen-512x512.py
+|   |   |   |   |-- deeplabv3plus_r101b-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3plus_r101b-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- deeplabv3plus_r18-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3plus_r18-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- deeplabv3plus_r18-d8_4xb4-80k_isaid-896x896.py
+|   |   |   |   |-- deeplabv3plus_r18-d8_4xb4-80k_loveda-512x512.py
+|   |   |   |   |-- deeplabv3plus_r18-d8_4xb4-80k_potsdam-512x512.py
+|   |   |   |   |-- deeplabv3plus_r18-d8_4xb4-80k_vaihingen-512x512.py
+|   |   |   |   |-- deeplabv3plus_r18b-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3plus_r18b-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb2-300k_mapillay_v1_65-1280x1280.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb4-40k_pascal-context-480x480.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb4-40k_pascal-context-59-480x480.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb4-80k_isaid-896x896.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb4-80k_loveda-512x512.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb4-80k_pascal-context-480x480.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb4-80k_pascal-context-59-480x480.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb4-80k_potsdam-512x512.py
+|   |   |   |   |-- deeplabv3plus_r50-d8_4xb4-80k_vaihingen-512x512.py
+|   |   |   |   |-- deeplabv3plus_r50b-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- deeplabv3plus_r50b-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- dmnet/
+|   |   |   |   |-- dmnet_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- dmnet_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- dmnet_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- dmnet_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- dmnet_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- dmnet_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- dmnet_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- dmnet_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- dmnet_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- dmnet_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- dmnet_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- dmnet_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- dnlnet/
+|   |   |   |   |-- dnl_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- dnl_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- dnl_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- dnl_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- dnl_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- dnl_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- dnl_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- dnl_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- dnl_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- dnl_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- dnl_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- dnl_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- dpt/
+|   |   |   |   |-- dpt_vit-b16_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- dsdl/
+|   |   |   |   |-- cityscapes.py
+|   |   |   |   |-- README.md
+|   |   |   |   `-- voc.py
+|   |   |   |-- emanet/
+|   |   |   |   |-- emanet_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- emanet_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- emanet_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- emanet_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- encnet/
+|   |   |   |   |-- encnet_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- encnet_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- encnet_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- encnet_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- encnet_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- encnet_r101-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- encnet_r101-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- encnet_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- encnet_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- encnet_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- encnet_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- encnet_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- encnet_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- encnet_r50-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- encnet_r50-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- encnet_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- encnet_r50s-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- erfnet/
+|   |   |   |   |-- erfnet_fcn_4xb4-160k_cityscapes-512x1024.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- fastfcn/
+|   |   |   |   |-- fastfcn_r50-d32_jpu_aspp_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fastfcn_r50-d32_jpu_aspp_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- fastfcn_r50-d32_jpu_aspp_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- fastfcn_r50-d32_jpu_aspp_4xb4-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fastfcn_r50-d32_jpu_enc_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fastfcn_r50-d32_jpu_enc_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- fastfcn_r50-d32_jpu_enc_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- fastfcn_r50-d32_jpu_enc_4xb4-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fastfcn_r50-d32_jpu_psp_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fastfcn_r50-d32_jpu_psp_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- fastfcn_r50-d32_jpu_psp_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- fastfcn_r50-d32_jpu_psp_4xb4-80k_cityscapes-512x1024.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- fastscnn/
+|   |   |   |   |-- fast_scnn_8xb4-160k_cityscapes-512x1024.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- fcn/
+|   |   |   |   |-- fcn-d6_r101-d16_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn-d6_r101-d16_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- fcn-d6_r101-d16_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn-d6_r101-d16_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- fcn-d6_r101b-d16_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn-d6_r101b-d16_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- fcn-d6_r50-d16_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn-d6_r50-d16_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- fcn-d6_r50-d16_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn-d6_r50-d16_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- fcn-d6_r50b-d16_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn-d6_r50b-d16_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- fcn_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- fcn_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- fcn_r101-d8_4xb2-amp-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- fcn_r101-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- fcn_r101-d8_4xb4-40k_pascal-context-480x480.py
+|   |   |   |   |-- fcn_r101-d8_4xb4-40k_pascal-context-59-480x480.py
+|   |   |   |   |-- fcn_r101-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- fcn_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- fcn_r101-d8_4xb4-80k_pascal-context-480x480.py
+|   |   |   |   |-- fcn_r101-d8_4xb4-80k_pascal-context-59-480x480.py
+|   |   |   |   |-- fcn_r101b-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_r101b-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- fcn_r18-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_r18-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- fcn_r18b-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_r18b-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- fcn_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- fcn_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- fcn_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- fcn_r50-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- fcn_r50-d8_4xb4-40k_pascal-context-480x480.py
+|   |   |   |   |-- fcn_r50-d8_4xb4-40k_pascal-context-59-480x480.py
+|   |   |   |   |-- fcn_r50-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- fcn_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- fcn_r50-d8_4xb4-80k_pascal-context-480x480.py
+|   |   |   |   |-- fcn_r50-d8_4xb4-80k_pascal-context-59-480x480.py
+|   |   |   |   |-- fcn_r50b-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_r50b-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- gcnet/
+|   |   |   |   |-- gcnet_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- gcnet_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- gcnet_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- gcnet_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- gcnet_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- gcnet_r101-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- gcnet_r101-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- gcnet_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- gcnet_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- gcnet_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- gcnet_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- gcnet_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- gcnet_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- gcnet_r50-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- gcnet_r50-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- gcnet_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- hrnet/
+|   |   |   |   |-- fcn_hr18_4xb2-160k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_hr18_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_hr18_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_hr18_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- fcn_hr18_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- fcn_hr18_4xb4-40k_pascal-context-480x480.py
+|   |   |   |   |-- fcn_hr18_4xb4-40k_pascal-context-59-480x480.py
+|   |   |   |   |-- fcn_hr18_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- fcn_hr18_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- fcn_hr18_4xb4-80k_isaid-896x896.py
+|   |   |   |   |-- fcn_hr18_4xb4-80k_loveda-512x512.py
+|   |   |   |   |-- fcn_hr18_4xb4-80k_pascal-context-480x480.py
+|   |   |   |   |-- fcn_hr18_4xb4-80k_pascal-context-59-480x480.py
+|   |   |   |   |-- fcn_hr18_4xb4-80k_potsdam-512x512.py
+|   |   |   |   |-- fcn_hr18_4xb4-80k_vaihingen-512x512.py
+|   |   |   |   |-- fcn_hr18s_4xb2-160k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_hr18s_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_hr18s_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_hr18s_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- fcn_hr18s_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- fcn_hr18s_4xb4-40k_pascal-context-480x480.py
+|   |   |   |   |-- fcn_hr18s_4xb4-40k_pascal-context-59-480x480.py
+|   |   |   |   |-- fcn_hr18s_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- fcn_hr18s_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- fcn_hr18s_4xb4-80k_isaid-896x896.py
+|   |   |   |   |-- fcn_hr18s_4xb4-80k_loveda-512x512.py
+|   |   |   |   |-- fcn_hr18s_4xb4-80k_pascal-context-480x480.py
+|   |   |   |   |-- fcn_hr18s_4xb4-80k_pascal-context-59-480x480.py
+|   |   |   |   |-- fcn_hr18s_4xb4-80k_potsdam-512x512.py
+|   |   |   |   |-- fcn_hr18s_4xb4-80k_vaihingen-512x512.py
+|   |   |   |   |-- fcn_hr48_4xb2-160k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_hr48_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_hr48_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fcn_hr48_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- fcn_hr48_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- fcn_hr48_4xb4-40k_pascal-context-480x480.py
+|   |   |   |   |-- fcn_hr48_4xb4-40k_pascal-context-59-480x480.py
+|   |   |   |   |-- fcn_hr48_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- fcn_hr48_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- fcn_hr48_4xb4-80k_isaid-896x896.py
+|   |   |   |   |-- fcn_hr48_4xb4-80k_loveda-512x512.py
+|   |   |   |   |-- fcn_hr48_4xb4-80k_pascal-context-480x480.py
+|   |   |   |   |-- fcn_hr48_4xb4-80k_pascal-context-59-480x480.py
+|   |   |   |   |-- fcn_hr48_4xb4-80k_potsdam-512x512.py
+|   |   |   |   |-- fcn_hr48_4xb4-80k_vaihingen-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- icnet/
+|   |   |   |   |-- icnet_r101-d8-in1k-pre_4xb2-160k_cityscapes-832x832.py
+|   |   |   |   |-- icnet_r101-d8-in1k-pre_4xb2-80k_cityscapes-832x832.py
+|   |   |   |   |-- icnet_r101-d8_4xb2-160k_cityscapes-832x832.py
+|   |   |   |   |-- icnet_r101-d8_4xb2-80k_cityscapes-832x832.py
+|   |   |   |   |-- icnet_r18-d8-in1k-pre_4xb2-160k_cityscapes-832x832.py
+|   |   |   |   |-- icnet_r18-d8-in1k-pre_4xb2-80k_cityscapes-832x832.py
+|   |   |   |   |-- icnet_r18-d8_4xb2-160k_cityscapes-832x832.py
+|   |   |   |   |-- icnet_r18-d8_4xb2-80k_cityscapes-832x832.py
+|   |   |   |   |-- icnet_r50-d8-in1k-pre_4xb2-160k_cityscapes-832x832.py
+|   |   |   |   |-- icnet_r50-d8-in1k-pre_4xb2-80k_cityscapes-832x832.py
+|   |   |   |   |-- icnet_r50-d8_4xb2-160k_cityscapes-832x832.py
+|   |   |   |   |-- icnet_r50-d8_4xb2-80k_cityscapes-832x832.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- isanet/
+|   |   |   |   |-- isanet_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- isanet_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- isanet_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- isanet_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- isanet_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- isanet_r101-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- isanet_r101-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- isanet_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- isanet_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- isanet_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- isanet_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- isanet_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- isanet_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- isanet_r50-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- isanet_r50-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- isanet_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- knet/
+|   |   |   |   |-- knet-s3_r50-d8_deeplabv3_8xb2-adamw-80k_ade20k-512x512.py
+|   |   |   |   |-- knet-s3_r50-d8_fcn_8xb2-adamw-80k_ade20k-512x512.py
+|   |   |   |   |-- knet-s3_r50-d8_pspnet_8xb2-adamw-80k_ade20k-512x512.py
+|   |   |   |   |-- knet-s3_r50-d8_upernet_8xb2-adamw-80k_ade20k-512x512.py
+|   |   |   |   |-- knet-s3_swin-l_upernet_8xb2-adamw-80k_ade20k-512x512.py
+|   |   |   |   |-- knet-s3_swin-l_upernet_8xb2-adamw-80k_ade20k-640x640.py
+|   |   |   |   |-- knet-s3_swin-t_upernet_8xb2-adamw-80k_ade20k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- mae/
+|   |   |   |   |-- mae-base_upernet_8xb2-amp-160k_ade20k-512x512-ms.py
+|   |   |   |   |-- mae-base_upernet_8xb2-amp-160k_ade20k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- mask2former/
+|   |   |   |   |-- mask2former_r101_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- mask2former_r101_8xb2-90k_cityscapes-512x1024.py
+|   |   |   |   |-- mask2former_r50_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- mask2former_r50_8xb2-90k_cityscapes-512x1024.py
+|   |   |   |   |-- mask2former_swin-b-in1k-384x384-pre_8xb2-160k_ade20k-640x640.py
+|   |   |   |   |-- mask2former_swin-b-in22k-384x384-pre_8xb2-160k_ade20k-640x640.py
+|   |   |   |   |-- mask2former_swin-b-in22k-384x384-pre_8xb2-90k_cityscapes-512x1024.py
+|   |   |   |   |-- mask2former_swin-l-in22k-384x384-pre_8xb2-160k_ade20k-640x640.py
+|   |   |   |   |-- mask2former_swin-l-in22k-384x384-pre_8xb2-90k_cityscapes-512x1024.py
+|   |   |   |   |-- mask2former_swin-s_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- mask2former_swin-s_8xb2-90k_cityscapes-512x1024.py
+|   |   |   |   |-- mask2former_swin-t_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- mask2former_swin-t_8xb2-90k_cityscapes-512x1024.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- maskformer/
+|   |   |   |   |-- maskformer_r101-d32_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- maskformer_r50-d32_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- maskformer_swin-s_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- maskformer_swin-t_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- mobilenet_v2/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- mobilenet-v2-d8_deeplabv3_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- mobilenet-v2-d8_deeplabv3_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- mobilenet-v2-d8_deeplabv3plus_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- mobilenet-v2-d8_deeplabv3plus_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- mobilenet-v2-d8_fcn_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- mobilenet-v2-d8_fcn_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- mobilenet-v2-d8_pspnet_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- mobilenet-v2-d8_pspnet_4xb4-160k_ade20k-512x512.py
+|   |   |   |   `-- README.md
+|   |   |   |-- mobilenet_v3/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- mobilenet-v3-d8-s_lraspp_4xb4-320k_cityscapes-512x1024.py
+|   |   |   |   |-- mobilenet-v3-d8-scratch-s_lraspp_4xb4-320k_cityscapes-512x1024.py
+|   |   |   |   |-- mobilenet-v3-d8-scratch_lraspp_4xb4-320k_cityscapes-512x1024.py
+|   |   |   |   |-- mobilenet-v3-d8_lraspp_4xb4-320k_cityscapes-512x1024.py
+|   |   |   |   `-- README.md
+|   |   |   |-- nonlocal_net/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- nonlocal_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- nonlocal_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- nonlocal_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- nonlocal_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- nonlocal_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- nonlocal_r101-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- nonlocal_r101-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- nonlocal_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- nonlocal_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- nonlocal_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- nonlocal_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- nonlocal_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- nonlocal_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- nonlocal_r50-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- nonlocal_r50-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- nonlocal_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   `-- README.md
+|   |   |   |-- ocrnet/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- ocrnet_hr18_4xb2-160k_cityscapes-512x1024.py
+|   |   |   |   |-- ocrnet_hr18_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- ocrnet_hr18_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- ocrnet_hr18_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- ocrnet_hr18_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- ocrnet_hr18_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- ocrnet_hr18_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- ocrnet_hr18s_4xb2-160k_cityscapes-512x1024.py
+|   |   |   |   |-- ocrnet_hr18s_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- ocrnet_hr18s_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- ocrnet_hr18s_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- ocrnet_hr18s_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- ocrnet_hr18s_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- ocrnet_hr18s_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- ocrnet_hr48_4xb2-160k_cityscapes-512x1024.py
+|   |   |   |   |-- ocrnet_hr48_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- ocrnet_hr48_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- ocrnet_hr48_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- ocrnet_hr48_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- ocrnet_hr48_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- ocrnet_hr48_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- ocrnet_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- ocrnet_r101-d8_8xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- ocrnet_r101-d8_8xb2-80k_cityscapes-512x1024.py
+|   |   |   |   `-- README.md
+|   |   |   |-- pidnet/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- pidnet-l_2xb6-120k_1024x1024-cityscapes.py
+|   |   |   |   |-- pidnet-m_2xb6-120k_1024x1024-cityscapes.py
+|   |   |   |   |-- pidnet-s_2xb6-120k_1024x1024-cityscapes.py
+|   |   |   |   `-- README.md
+|   |   |   |-- point_rend/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- pointrend_r101_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- pointrend_r101_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- pointrend_r50_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- pointrend_r50_4xb4-160k_ade20k-512x512.py
+|   |   |   |   `-- README.md
+|   |   |   |-- poolformer/
+|   |   |   |   |-- fpn_poolformer_m36_8xb4-40k_ade20k-512x512.py
+|   |   |   |   |-- fpn_poolformer_m48_8xb4-40k_ade20k-512x512.py
+|   |   |   |   |-- fpn_poolformer_s12_8xb4-40k_ade20k-512x512.py
+|   |   |   |   |-- fpn_poolformer_s24_8xb4-40k_ade20k-512x512.py
+|   |   |   |   |-- fpn_poolformer_s36_8x4_512x512_40k_ade20k.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- psanet/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- psanet_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- psanet_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- psanet_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- psanet_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- psanet_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- psanet_r101-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- psanet_r101-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- psanet_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- psanet_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- psanet_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- psanet_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- psanet_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- psanet_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- psanet_r50-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- psanet_r50-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- psanet_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   `-- README.md
+|   |   |   |-- pspnet/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- pspnet_r101-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- pspnet_r101-d8_4xb2-40k_cityscapes-512x1024_dark-zurich-1920x1080.py
+|   |   |   |   |-- pspnet_r101-d8_4xb2-40k_cityscapes-512x1024_night-driving-1920x1080.py
+|   |   |   |   |-- pspnet_r101-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- pspnet_r101-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- pspnet_r101-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- pspnet_r101-d8_4xb2-amp-80k_cityscapes-512x1024.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-160k_coco-stuff164k-512x512.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-20k_coco-stuff10k-512x512.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-320k_coco-stuff164k-512x512.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-40k_coco-stuff10k-512x512.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-40k_pascal-context-480x480.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-40k_pascal-context-59-480x480.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-80k_coco-stuff164k-512x512.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-80k_loveda-512x512.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-80k_pascal-context-480x480.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-80k_pascal-context-59-480x480.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-80k_potsdam-512x512.py
+|   |   |   |   |-- pspnet_r101-d8_4xb4-80k_vaihingen-512x512.py
+|   |   |   |   |-- pspnet_r101b-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- pspnet_r101b-d8_4xb2-80k_cityscapes-512x1024_dark-zurich-1920x1080.py
+|   |   |   |   |-- pspnet_r101b-d8_4xb2-80k_cityscapes-512x1024_night-driving-1920x1080.py
+|   |   |   |   |-- pspnet_r101b-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- pspnet_r18-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- pspnet_r18-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- pspnet_r18-d8_4xb4-80k_isaid-896x896.py
+|   |   |   |   |-- pspnet_r18-d8_4xb4-80k_loveda-512x512.py
+|   |   |   |   |-- pspnet_r18-d8_4xb4-80k_potsdam-512x512.py
+|   |   |   |   |-- pspnet_r18-d8_4xb4-80k_vaihingen-512x512.py
+|   |   |   |   |-- pspnet_r18b-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- pspnet_r18b-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- pspnet_r50-d32_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- pspnet_r50-d32_rsb_4xb2-adamw-80k_cityscapes-512x1024.py
+|   |   |   |   |-- pspnet_r50-d8-rsb_4xb2-adamw-80k_cityscapes-512x1024.py
+|   |   |   |   |-- pspnet_r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- pspnet_r50-d8_4xb2-40k_cityscapes-512x1024_dark-zurich-1920x1080.py
+|   |   |   |   |-- pspnet_r50-d8_4xb2-40k_cityscapes-512x1024_night-driving-1920x1080.py
+|   |   |   |   |-- pspnet_r50-d8_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- pspnet_r50-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- pspnet_r50-d8_4xb2-80k_cityscapes-512x1024_dark-zurich-1920x1080.py
+|   |   |   |   |-- pspnet_r50-d8_4xb2-80k_cityscapes-512x1024_night-driving-1920x1080.py
+|   |   |   |   |-- pspnet_r50-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-160k_coco-stuff164k-512x512.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-20k_coco-stuff10k-512x512.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-320k_coco-stuff164k-512x512.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-40k_coco-stuff10k-512x512.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-40k_pascal-context-480x480.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-40k_pascal-context-59-480x480.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-80k_coco-stuff164k-512x512.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-80k_isaid-896x896.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-80k_loveda-512x512.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-80k_pascal-context-480x480.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-80k_pascal-context-59-480x480.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-80k_potsdam-512x512.py
+|   |   |   |   |-- pspnet_r50-d8_4xb4-80k_vaihingen-512x512.py
+|   |   |   |   |-- pspnet_r50b-d32_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- pspnet_r50b-d8_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- pspnet_r50b-d8_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   `-- README.md
+|   |   |   |-- resnest/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- README.md
+|   |   |   |   |-- resnest_s101-d8_deeplabv3_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- resnest_s101-d8_deeplabv3_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- resnest_s101-d8_deeplabv3plus_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- resnest_s101-d8_deeplabv3plus_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- resnest_s101-d8_fcn_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- resnest_s101-d8_fcn_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- resnest_s101-d8_pspnet_4xb2-80k_cityscapes512x1024.py
+|   |   |   |   `-- resnest_s101-d8_pspnet_4xb4-160k_ade20k-512x512.py
+|   |   |   |-- san/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- README.md
+|   |   |   |   |-- san-vit-b16_coco-stuff164k-640x640.py
+|   |   |   |   |-- san-vit-b16_pascal_context-640x640.py
+|   |   |   |   |-- san-vit-b16_voc12aug-640x640.py
+|   |   |   |   |-- san-vit-l14_coco-stuff164k-640x640.py
+|   |   |   |   |-- san-vit-l14_pascal_context-640x640.py
+|   |   |   |   `-- san-vit-l14_voc12aug-640x640.py
+|   |   |   |-- segformer/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- README.md
+|   |   |   |   |-- segformer_mit-b0_8xb1-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- segformer_mit-b0_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- segformer_mit-b1_8xb1-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- segformer_mit-b1_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- segformer_mit-b2_8xb1-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- segformer_mit-b2_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- segformer_mit-b3_8xb1-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- segformer_mit-b3_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- segformer_mit-b4_8xb1-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- segformer_mit-b4_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- segformer_mit-b5_8xb1-160k_cityscapes-1024x1024.py
+|   |   |   |   |-- segformer_mit-b5_8xb2-160k_ade20k-512x512.py
+|   |   |   |   `-- segformer_mit-b5_8xb2-160k_ade20k-640x640.py
+|   |   |   |-- segmenter/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- README.md
+|   |   |   |   |-- segmenter_vit-b_mask_8xb1-160k_ade20k-512x512.py
+|   |   |   |   |-- segmenter_vit-l_mask_8xb1-160k_ade20k-512x512.py
+|   |   |   |   |-- segmenter_vit-s_fcn_8xb1-160k_ade20k-512x512.py
+|   |   |   |   |-- segmenter_vit-s_mask_8xb1-160k_ade20k-512x512.py
+|   |   |   |   `-- segmenter_vit-t_mask_8xb1-160k_ade20k-512x512.py
+|   |   |   |-- segnext/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- README.md
+|   |   |   |   |-- segnext_mscan-b_1xb16-adamw-160k_ade20k-512x512.py
+|   |   |   |   |-- segnext_mscan-l_1xb16-adamw-160k_ade20k-512x512.py
+|   |   |   |   |-- segnext_mscan-s_1xb16-adamw-160k_ade20k-512x512.py
+|   |   |   |   `-- segnext_mscan-t_1xb16-adamw-160k_ade20k-512x512.py
+|   |   |   |-- sem_fpn/
+|   |   |   |   |-- fpn_r101_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fpn_r101_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- fpn_r50_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- fpn_r50_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   `-- README.md
+|   |   |   |-- setr/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- README.md
+|   |   |   |   |-- setr_vit-l-mla_8xb1-160k_ade20k-512x512.py
+|   |   |   |   |-- setr_vit-l_mla_8xb1-80k_cityscapes-768x768.py
+|   |   |   |   |-- setr_vit-l_mla_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- setr_vit-l_naive_8xb1-80k_cityscapes-768x768.py
+|   |   |   |   |-- setr_vit-l_naive_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- setr_vit-l_pup_8xb1-80k_cityscapes-768x768.py
+|   |   |   |   `-- setr_vit-l_pup_8xb2-160k_ade20k-512x512.py
+|   |   |   |-- stdc/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- README.md
+|   |   |   |   |-- stdc1_4xb12-80k_cityscapes-512x1024.py
+|   |   |   |   |-- stdc1_in1k-pre_4xb12-80k_cityscapes-512x1024.py
+|   |   |   |   |-- stdc2_4xb12-80k_cityscapes-512x1024.py
+|   |   |   |   `-- stdc2_in1k-pre_4xb12-80k_cityscapes-512x1024.py
+|   |   |   |-- swin/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- README.md
+|   |   |   |   |-- swin-base-patch4-window12-in1k-384x384-pre_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- swin-base-patch4-window12-in22k-384x384-pre_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- swin-base-patch4-window7-in1k-pre_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- swin-base-patch4-window7-in22k-pre_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- swin-large-patch4-window12-in22k-384x384-pre_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- swin-large-patch4-window7-in22k-pre_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- swin-small-patch4-window7-in1k-pre_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- swin-tiny-patch4-window7-in1k-pre_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   `-- swin-tiny-patch4-window7_upernet_1xb8-20k_levir-256x256.py
+|   |   |   |-- twins/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- README.md
+|   |   |   |   |-- twins_pcpvt-b_fpn_fpnhead_8xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- twins_pcpvt-b_uperhead_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- twins_pcpvt-l_fpn_fpnhead_8xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- twins_pcpvt-l_uperhead_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- twins_pcpvt-s_fpn_fpnhead_8xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- twins_pcpvt-s_uperhead_8xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- twins_svt-b_fpn_fpnhead_8xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- twins_svt-b_uperhead_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- twins_svt-l_fpn_fpnhead_8xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- twins_svt-l_uperhead_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- twins_svt-s_fpn_fpnhead_8xb4-80k_ade20k-512x512.py
+|   |   |   |   `-- twins_svt-s_uperhead_8xb2-160k_ade20k-512x512.py
+|   |   |   |-- unet/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- README.md
+|   |   |   |   |-- unet-s5-d16_deeplabv3_4xb4-40k_drive-64x64.py
+|   |   |   |   |-- unet-s5-d16_deeplabv3_4xb4-40k_hrf-256x256.py
+|   |   |   |   |-- unet-s5-d16_deeplabv3_4xb4-40k_stare-128x128.py
+|   |   |   |   |-- unet-s5-d16_deeplabv3_4xb4-ce-1.0-dice-3.0-40k_chase-db1-128x128.py
+|   |   |   |   |-- unet-s5-d16_deeplabv3_4xb4-ce-1.0-dice-3.0-40k_drive-64x64.py
+|   |   |   |   |-- unet-s5-d16_deeplabv3_4xb4-ce-1.0-dice-3.0-40k_hrf-256x256.py
+|   |   |   |   |-- unet-s5-d16_deeplabv3_4xb4-ce-1.0-dice-3.0-40k_stare-128x128.py
+|   |   |   |   |-- unet-s5-d16_fcn_4xb4-160k_cityscapes-512x1024.py
+|   |   |   |   |-- unet-s5-d16_fcn_4xb4-40k_chase-db1-128x128.py
+|   |   |   |   |-- unet-s5-d16_fcn_4xb4-40k_drive-64x64.py
+|   |   |   |   |-- unet-s5-d16_fcn_4xb4-40k_hrf-256x256.py
+|   |   |   |   |-- unet-s5-d16_fcn_4xb4-40k_stare-128x128.py
+|   |   |   |   |-- unet-s5-d16_fcn_4xb4-ce-1.0-dice-3.0-40k_chase-db1-128x128.py
+|   |   |   |   |-- unet-s5-d16_fcn_4xb4-ce-1.0-dice-3.0-40k_drive-64x64.py
+|   |   |   |   |-- unet-s5-d16_fcn_4xb4-ce-1.0-dice-3.0-40k_hrf-256x256.py
+|   |   |   |   |-- unet-s5-d16_fcn_4xb4-ce-1.0-dice-3.0-40k_stare-128x128.py
+|   |   |   |   |-- unet-s5-d16_pspnet_4xb4-40k_chase-db1-128x128.py
+|   |   |   |   |-- unet-s5-d16_pspnet_4xb4-40k_drive-64x64.py
+|   |   |   |   |-- unet-s5-d16_pspnet_4xb4-40k_hrf-256x256.py
+|   |   |   |   |-- unet-s5-d16_pspnet_4xb4-40k_stare-128x128.py
+|   |   |   |   |-- unet-s5-d16_pspnet_4xb4-ce-1.0-dice-3.0-40k_chase-db1-128x128.py
+|   |   |   |   |-- unet-s5-d16_pspnet_4xb4-ce-1.0-dice-3.0-40k_drive-64x64.py
+|   |   |   |   |-- unet-s5-d16_pspnet_4xb4-ce-1.0-dice-3.0-40k_hrf-256x256.py
+|   |   |   |   |-- unet-s5-d16_pspnet_4xb4-ce-1.0-dice-3.0-40k_stare-128x128.py
+|   |   |   |   `-- unet_s5-d16_deeplabv3_4xb4-40k_chase-db1-128x128.py
+|   |   |   |-- upernet/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- README.md
+|   |   |   |   |-- upernet_r101_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- upernet_r101_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- upernet_r101_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- upernet_r101_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- upernet_r101_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- upernet_r101_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- upernet_r101_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- upernet_r101_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- upernet_r18_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- upernet_r18_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- upernet_r18_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- upernet_r18_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- upernet_r18_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   |-- upernet_r18_4xb4-80k_ade20k-512x512.py
+|   |   |   |   |-- upernet_r50_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- upernet_r50_4xb2-40k_cityscapes-769x769.py
+|   |   |   |   |-- upernet_r50_4xb2-80k_cityscapes-512x1024.py
+|   |   |   |   |-- upernet_r50_4xb2-80k_cityscapes-769x769.py
+|   |   |   |   |-- upernet_r50_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |-- upernet_r50_4xb4-20k_voc12aug-512x512.py
+|   |   |   |   |-- upernet_r50_4xb4-40k_voc12aug-512x512.py
+|   |   |   |   `-- upernet_r50_4xb4-80k_ade20k-512x512.py
+|   |   |   |-- vit/
+|   |   |   |   |-- metafile.yaml
+|   |   |   |   |-- README.md
+|   |   |   |   |-- vit_deit-b16-ln_mln_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- vit_deit-b16_mln_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- vit_deit-b16_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- vit_deit-b16_upernet_8xb2-80k_ade20k-512x512.py
+|   |   |   |   |-- vit_deit-s16-ln_mln_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- vit_deit-s16_mln_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- vit_deit-s16_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- vit_deit-s16_upernet_8xb2-80k_ade20k-512x512.py
+|   |   |   |   |-- vit_vit-b16-ln_mln_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   |-- vit_vit-b16_mln_upernet_8xb2-160k_ade20k-512x512.py
+|   |   |   |   `-- vit_vit-b16_mln_upernet_8xb2-80k_ade20k-512x512.py
+|   |   |   `-- vpd/
+|   |   |       |-- metafile.yaml
+|   |   |       |-- README.md
+|   |   |       |-- vpd_sd_4xb8-25k_nyu-480x480.py
+|   |   |       `-- vpd_sd_4xb8-25k_nyu-512x512.py
+|   |   |-- demo/
+|   |   |   |-- classroom__rgb_00283.jpg
+|   |   |   |-- demo.png
+|   |   |   |-- image_demo.py
+|   |   |   |-- image_demo_with_inferencer.py
+|   |   |   |-- inference_demo.ipynb
+|   |   |   |-- MMSegmentation_Tutorial.ipynb
+|   |   |   |-- rs_image_inference.py
+|   |   |   `-- video_demo.py
+|   |   |-- docker/
+|   |   |   |-- serve/
+|   |   |   |   |-- config.properties
+|   |   |   |   |-- Dockerfile
+|   |   |   |   `-- entrypoint.sh
+|   |   |   `-- Dockerfile
+|   |   |-- docs/
+|   |   |   |-- en/
+|   |   |   |   |-- _static/
+|   |   |   |   |   |-- css/
+|   |   |   |   |   |   `-- readthedocs.css
+|   |   |   |   |   `-- images/
+|   |   |   |   |       `-- mmsegmentation.png
+|   |   |   |   |-- advanced_guides/
+|   |   |   |   |   |-- add_datasets.md
+|   |   |   |   |   |-- add_metrics.md
+|   |   |   |   |   |-- add_models.md
+|   |   |   |   |   |-- add_transforms.md
+|   |   |   |   |   |-- customize_runtime.md
+|   |   |   |   |   |-- data_flow.md
+|   |   |   |   |   |-- datasets.md
+|   |   |   |   |   |-- engine.md
+|   |   |   |   |   |-- evaluation.md
+|   |   |   |   |   |-- index.rst
+|   |   |   |   |   |-- models.md
+|   |   |   |   |   |-- structures.md
+|   |   |   |   |   |-- training_tricks.md
+|   |   |   |   |   `-- transforms.md
+|   |   |   |   |-- device/
+|   |   |   |   |   `-- npu.md
+|   |   |   |   |-- migration/
+|   |   |   |   |   |-- index.rst
+|   |   |   |   |   |-- interface.md
+|   |   |   |   |   `-- package.md
+|   |   |   |   |-- notes/
+|   |   |   |   |   |-- changelog.md
+|   |   |   |   |   |-- changelog_v0.x.md
+|   |   |   |   |   `-- faq.md
+|   |   |   |   |-- user_guides/
+|   |   |   |   |   |-- 1_config.md
+|   |   |   |   |   |-- 2_dataset_prepare.md
+|   |   |   |   |   |-- 3_inference.md
+|   |   |   |   |   |-- 4_train_test.md
+|   |   |   |   |   |-- 5_deployment.md
+|   |   |   |   |   |-- index.rst
+|   |   |   |   |   |-- useful_tools.md
+|   |   |   |   |   |-- visualization.md
+|   |   |   |   |   `-- visualization_feature_map.md
+|   |   |   |   |-- api.rst
+|   |   |   |   |-- conf.py
+|   |   |   |   |-- get_started.md
+|   |   |   |   |-- index.rst
+|   |   |   |   |-- make.bat
+|   |   |   |   |-- Makefile
+|   |   |   |   |-- model_zoo.md
+|   |   |   |   |-- modelzoo_statistics.md
+|   |   |   |   |-- overview.md
+|   |   |   |   |-- stat.py
+|   |   |   |   `-- switch_language.md
+|   |   |   `-- zh_cn/
+|   |   |       |-- _static/
+|   |   |       |   |-- css/
+|   |   |       |   |   `-- readthedocs.css
+|   |   |       |   `-- images/
+|   |   |       |       `-- mmsegmentation.png
+|   |   |       |-- advanced_guides/
+|   |   |       |   |-- add_datasets.md
+|   |   |       |   |-- add_metrics.md
+|   |   |       |   |-- add_models.md
+|   |   |       |   |-- add_transforms.md
+|   |   |       |   |-- contribute_dataset.md
+|   |   |       |   |-- customize_runtime.md
+|   |   |       |   |-- data_flow.md
+|   |   |       |   |-- datasets.md
+|   |   |       |   |-- engine.md
+|   |   |       |   |-- evaluation.md
+|   |   |       |   |-- index.rst
+|   |   |       |   |-- models.md
+|   |   |       |   |-- structures.md
+|   |   |       |   |-- training_tricks.md
+|   |   |       |   `-- transforms.md
+|   |   |       |-- device/
+|   |   |       |   `-- npu.md
+|   |   |       |-- imgs/
+|   |   |       |   `-- zhihu_qrcode.jpg
+|   |   |       |-- migration/
+|   |   |       |   |-- index.rst
+|   |   |       |   |-- interface.md
+|   |   |       |   `-- package.md
+|   |   |       |-- notes/
+|   |   |       |   `-- faq.md
+|   |   |       |-- user_guides/
+|   |   |       |   |-- 1_config.md
+|   |   |       |   |-- 2_dataset_prepare.md
+|   |   |       |   |-- 3_inference.md
+|   |   |       |   |-- 4_train_test.md
+|   |   |       |   |-- 5_deployment.md
+|   |   |       |   |-- deploy_jetson.md
+|   |   |       |   |-- index.rst
+|   |   |       |   |-- useful_tools.md
+|   |   |       |   |-- visualization.md
+|   |   |       |   `-- visualization_feature_map.md
+|   |   |       |-- api.rst
+|   |   |       |-- conf.py
+|   |   |       |-- get_started.md
+|   |   |       |-- index.rst
+|   |   |       |-- make.bat
+|   |   |       |-- Makefile
+|   |   |       |-- model_zoo.md
+|   |   |       |-- modelzoo_statistics.md
+|   |   |       |-- overview.md
+|   |   |       |-- stat.py
+|   |   |       `-- switch_language.md
+|   |   |-- mmseg/
+|   |   |   |-- apis/
+|   |   |   |   |-- __init__.py
+|   |   |   |   |-- inference.py
+|   |   |   |   |-- mmseg_inferencer.py
+|   |   |   |   |-- remote_sense_inferencer.py
+|   |   |   |   `-- utils.py
+|   |   |   |-- datasets/
+|   |   |   |   |-- transforms/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- formatting.py
+|   |   |   |   |   |-- loading.py
+|   |   |   |   |   `-- transforms.py
+|   |   |   |   |-- __init__.py
+|   |   |   |   |-- ade.py
+|   |   |   |   |-- basesegdataset.py
+|   |   |   |   |-- bdd100k.py
+|   |   |   |   |-- chase_db1.py
+|   |   |   |   |-- cityscapes.py
+|   |   |   |   |-- coco_stuff.py
+|   |   |   |   |-- dark_zurich.py
+|   |   |   |   |-- dataset_wrappers.py
+|   |   |   |   |-- decathlon.py
+|   |   |   |   |-- drive.py
+|   |   |   |   |-- dsdl.py
+|   |   |   |   |-- hrf.py
+|   |   |   |   |-- isaid.py
+|   |   |   |   |-- isprs.py
+|   |   |   |   |-- levir.py
+|   |   |   |   |-- lip.py
+|   |   |   |   |-- loveda.py
+|   |   |   |   |-- mapillary.py
+|   |   |   |   |-- night_driving.py
+|   |   |   |   |-- nyu.py
+|   |   |   |   |-- pascal_context.py
+|   |   |   |   |-- potsdam.py
+|   |   |   |   |-- refuge.py
+|   |   |   |   |-- stare.py
+|   |   |   |   |-- synapse.py
+|   |   |   |   `-- voc.py
+|   |   |   |-- engine/
+|   |   |   |   |-- hooks/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   `-- visualization_hook.py
+|   |   |   |   |-- optimizers/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- force_default_constructor.py
+|   |   |   |   |   `-- layer_decay_optimizer_constructor.py
+|   |   |   |   |-- schedulers/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   `-- poly_ratio_scheduler.py
+|   |   |   |   `-- __init__.py
+|   |   |   |-- evaluation/
+|   |   |   |   |-- metrics/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- citys_metric.py
+|   |   |   |   |   |-- depth_metric.py
+|   |   |   |   |   `-- iou_metric.py
+|   |   |   |   `-- __init__.py
+|   |   |   |-- models/
+|   |   |   |   |-- assigners/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- base_assigner.py
+|   |   |   |   |   |-- hungarian_assigner.py
+|   |   |   |   |   `-- match_cost.py
+|   |   |   |   |-- backbones/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- beit.py
+|   |   |   |   |   |-- bisenetv1.py
+|   |   |   |   |   |-- bisenetv2.py
+|   |   |   |   |   |-- cgnet.py
+|   |   |   |   |   |-- ddrnet.py
+|   |   |   |   |   |-- erfnet.py
+|   |   |   |   |   |-- fast_scnn.py
+|   |   |   |   |   |-- hrnet.py
+|   |   |   |   |   |-- icnet.py
+|   |   |   |   |   |-- mae.py
+|   |   |   |   |   |-- mit.py
+|   |   |   |   |   |-- mobilenet_v2.py
+|   |   |   |   |   |-- mobilenet_v3.py
+|   |   |   |   |   |-- mscan.py
+|   |   |   |   |   |-- pidnet.py
+|   |   |   |   |   |-- resnest.py
+|   |   |   |   |   |-- resnet.py
+|   |   |   |   |   |-- resnext.py
+|   |   |   |   |   |-- stdc.py
+|   |   |   |   |   |-- swin.py
+|   |   |   |   |   |-- timm_backbone.py
+|   |   |   |   |   |-- twins.py
+|   |   |   |   |   |-- unet.py
+|   |   |   |   |   |-- vit.py
+|   |   |   |   |   `-- vpd.py
+|   |   |   |   |-- decode_heads/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- ann_head.py
+|   |   |   |   |   |-- apc_head.py
+|   |   |   |   |   |-- aspp_head.py
+|   |   |   |   |   |-- cascade_decode_head.py
+|   |   |   |   |   |-- cc_head.py
+|   |   |   |   |   |-- da_head.py
+|   |   |   |   |   |-- ddr_head.py
+|   |   |   |   |   |-- decode_head.py
+|   |   |   |   |   |-- dm_head.py
+|   |   |   |   |   |-- dnl_head.py
+|   |   |   |   |   |-- dpt_head.py
+|   |   |   |   |   |-- ema_head.py
+|   |   |   |   |   |-- enc_head.py
+|   |   |   |   |   |-- fcn_head.py
+|   |   |   |   |   |-- fpn_head.py
+|   |   |   |   |   |-- gc_head.py
+|   |   |   |   |   |-- ham_head.py
+|   |   |   |   |   |-- isa_head.py
+|   |   |   |   |   |-- knet_head.py
+|   |   |   |   |   |-- lraspp_head.py
+|   |   |   |   |   |-- mask2former_head.py
+|   |   |   |   |   |-- maskformer_head.py
+|   |   |   |   |   |-- nl_head.py
+|   |   |   |   |   |-- ocr_head.py
+|   |   |   |   |   |-- pid_head.py
+|   |   |   |   |   |-- point_head.py
+|   |   |   |   |   |-- psa_head.py
+|   |   |   |   |   |-- psp_head.py
+|   |   |   |   |   |-- san_head.py
+|   |   |   |   |   |-- segformer_head.py
+|   |   |   |   |   |-- segmenter_mask_head.py
+|   |   |   |   |   |-- sep_aspp_head.py
+|   |   |   |   |   |-- sep_fcn_head.py
+|   |   |   |   |   |-- setr_mla_head.py
+|   |   |   |   |   |-- setr_up_head.py
+|   |   |   |   |   |-- stdc_head.py
+|   |   |   |   |   |-- uper_head.py
+|   |   |   |   |   `-- vpd_depth_head.py
+|   |   |   |   |-- losses/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- accuracy.py
+|   |   |   |   |   |-- boundary_loss.py
+|   |   |   |   |   |-- cross_entropy_loss.py
+|   |   |   |   |   |-- dice_loss.py
+|   |   |   |   |   |-- focal_loss.py
+|   |   |   |   |   |-- huasdorff_distance_loss.py
+|   |   |   |   |   |-- kldiv_loss.py
+|   |   |   |   |   |-- lovasz_loss.py
+|   |   |   |   |   |-- ohem_cross_entropy_loss.py
+|   |   |   |   |   |-- silog_loss.py
+|   |   |   |   |   |-- tversky_loss.py
+|   |   |   |   |   `-- utils.py
+|   |   |   |   |-- necks/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- featurepyramid.py
+|   |   |   |   |   |-- fpn.py
+|   |   |   |   |   |-- ic_neck.py
+|   |   |   |   |   |-- jpu.py
+|   |   |   |   |   |-- mla_neck.py
+|   |   |   |   |   `-- multilevel_neck.py
+|   |   |   |   |-- segmentors/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- base.py
+|   |   |   |   |   |-- cascade_encoder_decoder.py
+|   |   |   |   |   |-- depth_estimator.py
+|   |   |   |   |   |-- encoder_decoder.py
+|   |   |   |   |   |-- multimodal_encoder_decoder.py
+|   |   |   |   |   `-- seg_tta.py
+|   |   |   |   |-- text_encoder/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   `-- clip_text_encoder.py
+|   |   |   |   |-- utils/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- basic_block.py
+|   |   |   |   |   |-- embed.py
+|   |   |   |   |   |-- encoding.py
+|   |   |   |   |   |-- inverted_residual.py
+|   |   |   |   |   |-- make_divisible.py
+|   |   |   |   |   |-- point_sample.py
+|   |   |   |   |   |-- ppm.py
+|   |   |   |   |   |-- res_layer.py
+|   |   |   |   |   |-- san_layers.py
+|   |   |   |   |   |-- se_layer.py
+|   |   |   |   |   |-- self_attention_block.py
+|   |   |   |   |   |-- shape_convert.py
+|   |   |   |   |   |-- up_conv_block.py
+|   |   |   |   |   `-- wrappers.py
+|   |   |   |   |-- __init__.py
+|   |   |   |   |-- builder.py
+|   |   |   |   `-- data_preprocessor.py
+|   |   |   |-- registry/
+|   |   |   |   |-- __init__.py
+|   |   |   |   `-- registry.py
+|   |   |   |-- structures/
+|   |   |   |   |-- sampler/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- base_pixel_sampler.py
+|   |   |   |   |   |-- builder.py
+|   |   |   |   |   `-- ohem_pixel_sampler.py
+|   |   |   |   |-- __init__.py
+|   |   |   |   `-- seg_data_sample.py
+|   |   |   |-- utils/
+|   |   |   |   |-- __init__.py
+|   |   |   |   |-- bpe_simple_vocab_16e6.txt.gz
+|   |   |   |   |-- class_names.py
+|   |   |   |   |-- collect_env.py
+|   |   |   |   |-- get_templates.py
+|   |   |   |   |-- io.py
+|   |   |   |   |-- mask_classification.py
+|   |   |   |   |-- misc.py
+|   |   |   |   |-- set_env.py
+|   |   |   |   |-- tokenizer.py
+|   |   |   |   `-- typing_utils.py
+|   |   |   |-- visualization/
+|   |   |   |   |-- __init__.py
+|   |   |   |   `-- local_visualizer.py
+|   |   |   |-- __init__.py
+|   |   |   `-- version.py
+|   |   |-- projects/
+|   |   |   |-- Adabins/
+|   |   |   |   |-- backbones/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   `-- adabins_backbone.py
+|   |   |   |   |-- configs/
+|   |   |   |   |   |-- _base_/
+|   |   |   |   |   |   |-- datasets/
+|   |   |   |   |   |   |   `-- nyu.py
+|   |   |   |   |   |   |-- models/
+|   |   |   |   |   |   |   `-- Adabins.py
+|   |   |   |   |   |   `-- default_runtime.py
+|   |   |   |   |   `-- adabins/
+|   |   |   |   |       |-- adabins_efficient_b5_4x16_25e_kitti_352x704.py
+|   |   |   |   |       `-- adabins_efficient_b5_4x16_25e_NYU_416x544.py
+|   |   |   |   |-- decode_head/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   `-- adabins_head.py
+|   |   |   |   `-- README.md
+|   |   |   |-- bdd100k_dataset/
+|   |   |   |   |-- configs/
+|   |   |   |   |   |-- _base_/
+|   |   |   |   |   |   `-- datasets/
+|   |   |   |   |   |       `-- bdd100k.py
+|   |   |   |   |   `-- pspnet_r50-d8_4xb2-80k_bdd100k-512x1024.py
+|   |   |   |   |-- docs/
+|   |   |   |   |   |-- en/
+|   |   |   |   |   |   `-- user_guides/
+|   |   |   |   |   |       `-- 2_dataset_prepare.md
+|   |   |   |   |   `-- zh_cn/
+|   |   |   |   |       `-- user_guides/
+|   |   |   |   |           `-- 2_dataset_prepare.md
+|   |   |   |   |-- mmseg/
+|   |   |   |   |   `-- datasets/
+|   |   |   |   |       `-- bdd100k.py
+|   |   |   |   `-- README.md
+|   |   |   |-- CAT-Seg/
+|   |   |   |   |-- cat_seg/
+|   |   |   |   |   |-- models/
+|   |   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |   |-- cat_aggregator.py
+|   |   |   |   |   |   |-- cat_head.py
+|   |   |   |   |   |   `-- clip_ovseg.py
+|   |   |   |   |   |-- utils/
+|   |   |   |   |   |   |-- bpe_vocab/
+|   |   |   |   |   |   |   `-- bpe_simple_vocab_16e6.txt.gz
+|   |   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |   |-- clip_model.py
+|   |   |   |   |   |   |-- clip_templates.py
+|   |   |   |   |   |   |-- clip_wrapper.py
+|   |   |   |   |   |   |-- self_attention_block.py
+|   |   |   |   |   |   `-- tokenizer.py
+|   |   |   |   |   `-- __init__.py
+|   |   |   |   |-- configs/
+|   |   |   |   |   |-- _base_/
+|   |   |   |   |   |   |-- datasets/
+|   |   |   |   |   |   |   |-- ade20k_384x384.py
+|   |   |   |   |   |   |   |-- coco-stuff164k_384x384.py
+|   |   |   |   |   |   |   `-- pascal_context_59_384x384.py
+|   |   |   |   |   |   |-- schedules/
+|   |   |   |   |   |   |   `-- schedule_80k.py
+|   |   |   |   |   |   `-- default_runtime.py
+|   |   |   |   |   `-- cat_seg/
+|   |   |   |   |       |-- catseg_vitb-r101_4xb1-warmcoslr2e-4-adamw-80k_ade20k-384x384.py
+|   |   |   |   |       |-- catseg_vitb-r101_4xb1-warmcoslr2e-4-adamw-80k_pascal-context-59-384x384.py
+|   |   |   |   |       |-- catseg_vitb-r101_4xb2-warmcoslr2e-4-adamw-80k_coco-stuff164k-384x384.py
+|   |   |   |   |       |-- catseg_vitg-swin-b_4xb1-warmcoslr2e-4_adamw-80k_coco-stuff164k_384x384.py
+|   |   |   |   |       |-- catseg_vith-swin-b_4xb1-warmcoslr2e-4_adamw-80k_coco-stuff164k_384x384.py
+|   |   |   |   |       `-- catseg_vitl-swin-b_4xb1-warmcoslr2e-4_adamw-80k_coco-stuff164k_384x384.py
+|   |   |   |   |-- utils/
+|   |   |   |   |   `-- __init__.py
+|   |   |   |   `-- README.md
+|   |   |   |-- example_project/
+|   |   |   |   |-- configs/
+|   |   |   |   |   `-- fcn_dummy-r50-d8_4xb2-40k_cityscapes-512x1024.py
+|   |   |   |   |-- dummy/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   `-- dummy_resnet.py
+|   |   |   |   `-- README.md
+|   |   |   |-- gid_dataset/
+|   |   |   |   |-- configs/
+|   |   |   |   |   |-- _base_/
+|   |   |   |   |   |   `-- datasets/
+|   |   |   |   |   |       `-- gid.py
+|   |   |   |   |   `-- deeplabv3plus_r101-d8_4xb2-240k_gid-256x256.py
+|   |   |   |   |-- mmseg/
+|   |   |   |   |   `-- datasets/
+|   |   |   |   |       `-- gid.py
+|   |   |   |   |-- tools/
+|   |   |   |   |   `-- dataset_converters/
+|   |   |   |   |       |-- gid.py
+|   |   |   |   |       `-- gid_select15imgFromAll.py
+|   |   |   |   `-- user_guides/
+|   |   |   |       `-- 2_dataset_prepare.md
+|   |   |   |-- hssn/
+|   |   |   |   |-- configs/
+|   |   |   |   |   |-- _base_/
+|   |   |   |   |   |   |-- datasets/
+|   |   |   |   |   |   |   `-- cityscapes.py
+|   |   |   |   |   |   |-- models/
+|   |   |   |   |   |   |   `-- deeplabv3plus_r50-d8_vd_contrast.py
+|   |   |   |   |   |   |-- schedules/
+|   |   |   |   |   |   |   `-- schedule_80k.py
+|   |   |   |   |   |   `-- default_runtime.py
+|   |   |   |   |   `-- hssn/
+|   |   |   |   |       `-- hieraseg_deeplabv3plus_r101-d8_4xb2-80l_cityscapes-512x1024.py
+|   |   |   |   |-- decode_head/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   `-- sep_aspp_contrast_head.py
+|   |   |   |   |-- losses/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- hiera_triplet_loss_cityscape.py
+|   |   |   |   |   `-- tree_triplet_loss.py
+|   |   |   |   `-- README.md
+|   |   |   |-- isnet/
+|   |   |   |   |-- configs/
+|   |   |   |   |   `-- isnet_r50-d8_8xb2-160k_cityscapes-512x1024.py
+|   |   |   |   |-- decode_heads/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   `-- isnet_head.py
+|   |   |   |   `-- README.md
+|   |   |   |-- mapillary_dataset/
+|   |   |   |   |-- configs/
+|   |   |   |   |   |-- _base_/
+|   |   |   |   |   |   `-- datasets/
+|   |   |   |   |   |       |-- mapillary_v1.py
+|   |   |   |   |   |       |-- mapillary_v1_65.py
+|   |   |   |   |   |       `-- mapillary_v2.py
+|   |   |   |   |   |-- deeplabv3plus_r101-d8_4xb2-240k_mapillay_v1-512x1024.py
+|   |   |   |   |   |-- deeplabv3plus_r101-d8_4xb2-240k_mapillay_v2-512x1024.py
+|   |   |   |   |   |-- pspnet_r101-d8_4xb2-240k_mapillay_v1-512x1024.py
+|   |   |   |   |   `-- pspnet_r101-d8_4xb2-240k_mapillay_v2-512x1024.py
+|   |   |   |   |-- docs/
+|   |   |   |   |   `-- en/
+|   |   |   |   |       `-- user_guides/
+|   |   |   |   |           `-- 2_dataset_prepare.md
+|   |   |   |   |-- mmseg/
+|   |   |   |   |   `-- datasets/
+|   |   |   |   |       `-- mapillary.py
+|   |   |   |   `-- README.md
+|   |   |   |-- medical/
+|   |   |   |   `-- 2d_image/
+|   |   |   |       |-- ct/
+|   |   |   |       |   `-- cranium/
+|   |   |   |       |       |-- configs/
+|   |   |   |       |       |   |-- cranium_512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet-{use-sigmoid}_1xb16-0.01-20k_cranium-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_cranium-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_cranium-512x512.py
+|   |   |   |       |       |   `-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_cranium-512x512.py
+|   |   |   |       |       |-- datasets/
+|   |   |   |       |       |   `-- cranium_dataset.py
+|   |   |   |       |       |-- tools/
+|   |   |   |       |       |   `-- prepare_dataset.py
+|   |   |   |       |       `-- README.md
+|   |   |   |       |-- dermoscopy/
+|   |   |   |       |   |-- isic2016_task1/
+|   |   |   |       |   |   |-- configs/
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_isic2016-task1-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_isic2016-task1-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_isic2016-task1-512x512.py
+|   |   |   |       |   |   |   `-- isic2016-task1_512x512.py
+|   |   |   |       |   |   |-- datasets/
+|   |   |   |       |   |   |   `-- isic2016-task1_dataset.py
+|   |   |   |       |   |   |-- tools/
+|   |   |   |       |   |   |   `-- prepare_dataset.py
+|   |   |   |       |   |   `-- README.md
+|   |   |   |       |   `-- isic2017_task1/
+|   |   |   |       |       |-- configs/
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_isic2017-task1-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_isic2017-task1-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_isic2017-task1-512x512.py
+|   |   |   |       |       |   `-- isic2017-task1_512x512.py
+|   |   |   |       |       |-- datasets/
+|   |   |   |       |       |   `-- isic2017-task1_dataset.py
+|   |   |   |       |       |-- tools/
+|   |   |   |       |       |   `-- prepare_dataset.py
+|   |   |   |       |       `-- README.md
+|   |   |   |       |-- endoscopy/
+|   |   |   |       |   |-- kvasir_seg/
+|   |   |   |       |   |   |-- configs/
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet-{use-sigmoid}_1xb16-0.01-20k_kvasir-seg-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_kvasir-seg-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_kvasir-seg-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_kvasir-seg-512x512.py
+|   |   |   |       |   |   |   `-- kvasir-seg_512x512.py
+|   |   |   |       |   |   |-- datasets/
+|   |   |   |       |   |   |   `-- kvasir-seg_dataset.py
+|   |   |   |       |   |   |-- tools/
+|   |   |   |       |   |   |   `-- prepare_dataset.py
+|   |   |   |       |   |   `-- README.md
+|   |   |   |       |   `-- kvasir_seg_aliyun/
+|   |   |   |       |       |-- configs/
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_kvasir-seg-aliyun-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_kvasir-seg-aliyun-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_kvasir-seg-aliyun-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.01lr-sigmoid-20k_kvasir-seg-aliyun-512x512.py
+|   |   |   |       |       |   `-- kvasir-seg-aliyun_512x512.py
+|   |   |   |       |       |-- datasets/
+|   |   |   |       |       |   `-- kvasir-seg-aliyun_dataset.py
+|   |   |   |       |       |-- tools/
+|   |   |   |       |       |   `-- prepare_dataset.py
+|   |   |   |       |       `-- README.md
+|   |   |   |       |-- fluorescein_angriogram/
+|   |   |   |       |   `-- vampire/
+|   |   |   |       |       |-- configs/
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_vampire-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_vampire-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_vampire-512x512.py
+|   |   |   |       |       |   `-- vampire_512x512.py
+|   |   |   |       |       |-- datasets/
+|   |   |   |       |       |   |-- __init__.py
+|   |   |   |       |       |   `-- vampire_dataset.py
+|   |   |   |       |       |-- tools/
+|   |   |   |       |       |   `-- prepare_dataset.py
+|   |   |   |       |       `-- README.md
+|   |   |   |       |-- fundus_photography/
+|   |   |   |       |   |-- dr_hagis/
+|   |   |   |       |   |   |-- configs/
+|   |   |   |       |   |   |   |-- dr-hagis_512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_dr-hagis-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_dr-hagis-512x512.py
+|   |   |   |       |   |   |   `-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_dr-hagis-512x512.py
+|   |   |   |       |   |   |-- datasets/
+|   |   |   |       |   |   |   `-- dr-hagis_dataset.py
+|   |   |   |       |   |   |-- tools/
+|   |   |   |       |   |   |   `-- prepare_dataset.py
+|   |   |   |       |   |   `-- README.md
+|   |   |   |       |   |-- gamma3/
+|   |   |   |       |   |   |-- configs/
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_gamma3-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_gamma3-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_gamma3-512x512.py
+|   |   |   |       |   |   |   `-- gamma3_512x512.py
+|   |   |   |       |   |   |-- datasets/
+|   |   |   |       |   |   |   `-- gamma3_dataset.py
+|   |   |   |       |   |   |-- tools/
+|   |   |   |       |   |   |   `-- prepare_dataset.py
+|   |   |   |       |   |   `-- README.md
+|   |   |   |       |   |-- orvs/
+|   |   |   |       |   |   |-- configs/
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_orvs-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_orvs-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_orvs-512x512.py
+|   |   |   |       |   |   |   `-- orvs_512x512.py
+|   |   |   |       |   |   |-- datasets/
+|   |   |   |       |   |   |   `-- orvs_dataset.py
+|   |   |   |       |   |   |-- tools/
+|   |   |   |       |   |   |   `-- prepare_dataset.py
+|   |   |   |       |   |   `-- README.md
+|   |   |   |       |   `-- rite/
+|   |   |   |       |       |-- configs/
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_rite-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_rite-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_rite-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.01lr-sigmoid-20k_rite-512x512.py
+|   |   |   |       |       |   `-- rite_512x512.py
+|   |   |   |       |       |-- datasets/
+|   |   |   |       |       |   `-- rite_dataset.py
+|   |   |   |       |       |-- tools/
+|   |   |   |       |       |   `-- prepare_dataset.py
+|   |   |   |       |       `-- README.md
+|   |   |   |       |-- histopathology/
+|   |   |   |       |   |-- breast_cancer_cell_seg/
+|   |   |   |       |   |   |-- configs/
+|   |   |   |       |   |   |   |-- breast-cancer-cell-seg_512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_breast-cancer-cell-seg-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_breast-cancer-cell-seg-512x512.py
+|   |   |   |       |   |   |   `-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_breast-cancer-cell-seg-512x512.py
+|   |   |   |       |   |   |-- datasets/
+|   |   |   |       |   |   |   `-- breast-cancer-cell-seg_dataset.py
+|   |   |   |       |   |   |-- tools/
+|   |   |   |       |   |   |   `-- prepare_dataset.py
+|   |   |   |       |   |   `-- README.md
+|   |   |   |       |   |-- breastCancerCellSegmentation/
+|   |   |   |       |   |   |-- configs/
+|   |   |   |       |   |   |   |-- breastCancerCellSegmentation_512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_breastCancerCellSegmentation-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_breastCancerCellSegmentation-512x512.py
+|   |   |   |       |   |   |   `-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_breastCancerCellSegmentation-512x512.py
+|   |   |   |       |   |   |-- datasets/
+|   |   |   |       |   |   |   `-- breastCancerCellSegmentation_dataset.py
+|   |   |   |       |   |   |-- tools/
+|   |   |   |       |   |   |   `-- prepare_dataset.py
+|   |   |   |       |   |   `-- README.md
+|   |   |   |       |   |-- conic2022_seg/
+|   |   |   |       |   |   |-- configs/
+|   |   |   |       |   |   |   |-- conic2022-seg_512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_conic2022-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_conic2022-512x512.py
+|   |   |   |       |   |   |   `-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_conic2022-512x512.py
+|   |   |   |       |   |   |-- datasets/
+|   |   |   |       |   |   |   `-- conic2022-seg_dataset.py
+|   |   |   |       |   |   |-- tools/
+|   |   |   |       |   |   |   `-- prepare_dataset.py
+|   |   |   |       |   |   |-- conic2022_seg_dataset.png
+|   |   |   |       |   |   `-- README.md
+|   |   |   |       |   |-- consep/
+|   |   |   |       |   |   |-- configs/
+|   |   |   |       |   |   |   |-- consep_512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_consep-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_consep-512x512.py
+|   |   |   |       |   |   |   `-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_consep-512x512.py
+|   |   |   |       |   |   |-- datasets/
+|   |   |   |       |   |   |   `-- consep_dataset.py
+|   |   |   |       |   |   |-- tools/
+|   |   |   |       |   |   |   `-- prepare_dataset.py
+|   |   |   |       |   |   `-- README.md
+|   |   |   |       |   |-- fusc2021/
+|   |   |   |       |   |   |-- configs/
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_fusc2021-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_fusc2021-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_fusc2021-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.01lr-sigmoid-20k_fusc2021-512x512.py
+|   |   |   |       |   |   |   `-- fusc2021_512x512.py
+|   |   |   |       |   |   |-- datasets/
+|   |   |   |       |   |   |   `-- fusc2021_dataset.py
+|   |   |   |       |   |   |-- tools/
+|   |   |   |       |   |   |   `-- prepare_dataset.py
+|   |   |   |       |   |   `-- README.md
+|   |   |   |       |   |-- pannuke/
+|   |   |   |       |   |   |-- configs/
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet-{use-sigmoid}_1xb16-0.01-20k_bactteria-detection-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_pannuke-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_pannuke-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_pannuke-512x512.py
+|   |   |   |       |   |   |   `-- pannuke_512x512.py
+|   |   |   |       |   |   |-- datasets/
+|   |   |   |       |   |   |   `-- pannuke_dataset.py
+|   |   |   |       |   |   |-- tools/
+|   |   |   |       |   |   |   `-- prepare_dataset.py
+|   |   |   |       |   |   `-- README.md
+|   |   |   |       |   `-- pcam/
+|   |   |   |       |       |-- configs/
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_pcam-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_pcam-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_pcam-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.01lr-sigmoid-20k_pcam-512x512.py
+|   |   |   |       |       |   `-- pcam_512x512.py
+|   |   |   |       |       |-- datasets/
+|   |   |   |       |       |   `-- pcam_dataset.py
+|   |   |   |       |       |-- tools/
+|   |   |   |       |       |   `-- prepare_dataset.py
+|   |   |   |       |       `-- README.md
+|   |   |   |       |-- infrared_reflectance_imaging/
+|   |   |   |       |   `-- ravir/
+|   |   |   |       |       |-- configs/
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_ravir-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_ravir-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_ravir-512x512.py
+|   |   |   |       |       |   `-- ravir_512x512.py
+|   |   |   |       |       |-- datasets/
+|   |   |   |       |       |   |-- __init__.py
+|   |   |   |       |       |   `-- ravir_dataset.py
+|   |   |   |       |       |-- tools/
+|   |   |   |       |       |   `-- prepare_dataset.py
+|   |   |   |       |       `-- README.md
+|   |   |   |       |-- microscopy_images/
+|   |   |   |       |   |-- 2pm_vessel/
+|   |   |   |       |   |   |-- configs/
+|   |   |   |       |   |   |   |-- 2pm-vessel_512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_2pm-vessel-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_2pm-vessel-512x512.py
+|   |   |   |       |   |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_2pm-vessel-512x512.py
+|   |   |   |       |   |   |   `-- fcn-unet-s5-d16_unet_1xb16-0.01lr-sigmoid-20k_bactteria-detection-512x512.py
+|   |   |   |       |   |   |-- datasets/
+|   |   |   |       |   |   |   `-- 2pm-vessel_dataset.py
+|   |   |   |       |   |   |-- tools/
+|   |   |   |       |   |   |   `-- prepare_dataset.py
+|   |   |   |       |   |   `-- README.md
+|   |   |   |       |   `-- bactteria_detection/
+|   |   |   |       |       |-- configs/
+|   |   |   |       |       |   |-- bactteria-detection_512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_bactteria-detection-512x512.py
+|   |   |   |       |       |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_bactteria-detection-512x512.py
+|   |   |   |       |       |   `-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_bactteria-detection-512x512.py
+|   |   |   |       |       |-- datasets/
+|   |   |   |       |       |   `-- bactteria-detection_dataset.py
+|   |   |   |       |       |-- tools/
+|   |   |   |       |       |   `-- prepare_dataset.py
+|   |   |   |       |       `-- README.md
+|   |   |   |       |-- tools/
+|   |   |   |       |   `-- split_seg_dataset.py
+|   |   |   |       `-- x_ray/
+|   |   |   |           |-- chest_image_pneum/
+|   |   |   |           |   |-- configs/
+|   |   |   |           |   |   |-- chest-image-pneum_512x512.py
+|   |   |   |           |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_chest-image-pneum-512x512.py
+|   |   |   |           |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_chest-image-pneum-512x512.py
+|   |   |   |           |   |   `-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_chest-image-pneum-512x512.py
+|   |   |   |           |   |-- datasets/
+|   |   |   |           |   |   `-- chest-image-pneum_dataset.py
+|   |   |   |           |   |-- tools/
+|   |   |   |           |   |   `-- prepare_dataset.py
+|   |   |   |           |   `-- README.md
+|   |   |   |           |-- chest_x_ray_images_with_pneumothorax_masks/
+|   |   |   |           |   |-- configs/
+|   |   |   |           |   |   |-- chest-x-ray-images-with-pneumothorax-masks_512x512.py
+|   |   |   |           |   |   |-- fcn-unet-s5-d16_unet-{use-sigmoid}_1xb16-0.01-20k_chest-x-ray-images-with-pneumothorax-masks-512x512.py
+|   |   |   |           |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_chest-x-ray-images-with-pneumothorax-masks-512x512.py
+|   |   |   |           |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_chest-x-ray-images-with-pneumothorax-masks-512x512.py
+|   |   |   |           |   |   `-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_chest-x-ray-images-with-pneumothorax-masks-512x512.py
+|   |   |   |           |   |-- datasets/
+|   |   |   |           |   |   `-- chest-x-ray-images-with-pneumothorax-masks_dataset.py
+|   |   |   |           |   |-- tools/
+|   |   |   |           |   |   `-- prepare_dataset.py
+|   |   |   |           |   `-- README.md
+|   |   |   |           |-- covid_19_ct_cxr/
+|   |   |   |           |   |-- configs/
+|   |   |   |           |   |   |-- covid-19-ct-cxr_512x512.py
+|   |   |   |           |   |   |-- fcn-unet-s5-d16_unet-{use-sigmoid}_1xb16-0.01-20k_covid-19-ct-cxr-512x512.py
+|   |   |   |           |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_covid-19-ct-cxr-512x512.py
+|   |   |   |           |   |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_covid-19-ct-cxr-512x512.py
+|   |   |   |           |   |   `-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_covid-19-ct-cxr-512x512.py
+|   |   |   |           |   |-- datasets/
+|   |   |   |           |   |   `-- covid-19-ct-cxr_dataset.py
+|   |   |   |           |   |-- tools/
+|   |   |   |           |   |   `-- prepare_dataset.py
+|   |   |   |           |   `-- README.md
+|   |   |   |           `-- crass/
+|   |   |   |               |-- configs/
+|   |   |   |               |   |-- crass_512x512.py
+|   |   |   |               |   |-- fcn-unet-s5-d16_unet_1xb16-0.0001-20k_crass-512x512.py
+|   |   |   |               |   |-- fcn-unet-s5-d16_unet_1xb16-0.001-20k_crass-512x512.py
+|   |   |   |               |   |-- fcn-unet-s5-d16_unet_1xb16-0.01-20k_crass-512x512.py
+|   |   |   |               |   `-- fcn-unet-s5-d16_unet_1xb16-lr0.01-sigmoid-20k_crass-512x512.py
+|   |   |   |               |-- datasets/
+|   |   |   |               |   `-- crass_dataset.py
+|   |   |   |               |-- tools/
+|   |   |   |               |   `-- prepare_dataset.py
+|   |   |   |               `-- README.md
+|   |   |   |-- nvidia_jetson/
+|   |   |   |   `-- README.md
+|   |   |   |-- pp_mobileseg/
+|   |   |   |   |-- backbones/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   `-- strideformer.py
+|   |   |   |   |-- configs/
+|   |   |   |   |   |-- _base_/
+|   |   |   |   |   |   |-- datasets/
+|   |   |   |   |   |   |   `-- ade20k.py
+|   |   |   |   |   |   |-- models/
+|   |   |   |   |   |   |   `-- pp_mobile.py
+|   |   |   |   |   |   |-- schedules/
+|   |   |   |   |   |   |   `-- schedule_80k.py
+|   |   |   |   |   |   `-- default_runtime.py
+|   |   |   |   |   `-- pp_mobileseg/
+|   |   |   |   |       |-- pp_mobileseg_mobilenetv3_2x16_80k_ade20k_512x512_base.py
+|   |   |   |   |       `-- pp_mobileseg_mobilenetv3_2x16_80k_ade20k_512x512_tiny.py
+|   |   |   |   |-- decode_head/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   `-- pp_mobileseg_head.py
+|   |   |   |   |-- inference_onnx.py
+|   |   |   |   `-- README.md
+|   |   |   |-- sam_inference_demo/
+|   |   |   |   |-- sam/
+|   |   |   |   |   |-- modeling/
+|   |   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |   |-- common.py
+|   |   |   |   |   |   |-- mask_decoder.py
+|   |   |   |   |   |   |-- prompt_encoder.py
+|   |   |   |   |   |   |-- sam.py
+|   |   |   |   |   |   `-- transformer.py
+|   |   |   |   |   |-- utils/
+|   |   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |   |-- amg.py
+|   |   |   |   |   |   `-- transforms.py
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   `-- sam_inferencer.py
+|   |   |   |   |-- README.md
+|   |   |   |   `-- sam_image_demo.ipynb
+|   |   |   |-- van/
+|   |   |   |   |-- backbones/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   `-- van.py
+|   |   |   |   |-- configs/
+|   |   |   |   |   |-- _base_/
+|   |   |   |   |   |   |-- datasets/
+|   |   |   |   |   |   |   `-- ade20k.py
+|   |   |   |   |   |   `-- models/
+|   |   |   |   |   |       |-- van_fpn.py
+|   |   |   |   |   |       `-- van_upernet.py
+|   |   |   |   |   `-- van/
+|   |   |   |   |       |-- van-b0_fpn_8xb4-40k_ade20k-512x512.py
+|   |   |   |   |       |-- van-b1_fpn_8xb4-40k_ade20k-512x512.py
+|   |   |   |   |       |-- van-b2_fpn_8xb4-40k_ade20k-512x512.py
+|   |   |   |   |       |-- van-b2_upernet_4xb2-160k_ade20k-512x512.py
+|   |   |   |   |       |-- van-b3_fpn_8xb4-40k_ade20k-512x512.py
+|   |   |   |   |       |-- van-b3_upernet_4xb2-160k_ade20k-512x512.py
+|   |   |   |   |       |-- van-b4-in22kpre_upernet_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |       |-- van-b4_upernet_4xb4-160k_ade20k-512x512.py
+|   |   |   |   |       |-- van-b5-in22kpre_upernet_4xb2-160k_ade20k-512x512.py
+|   |   |   |   |       `-- van-b6-in22kpre_upernet_4xb2-160k_ade20k-512x512.py
+|   |   |   |   `-- README.md
+|   |   |   |-- XDecoder/
+|   |   |   |   `-- README.md
+|   |   |   |-- faq.md
+|   |   |   `-- README.md
+|   |   |-- requirements/
+|   |   |   |-- albu.txt
+|   |   |   |-- docs.txt
+|   |   |   |-- mminstall.txt
+|   |   |   |-- multimodal.txt
+|   |   |   |-- optional.txt
+|   |   |   |-- readthedocs.txt
+|   |   |   |-- runtime.txt
+|   |   |   `-- tests.txt
+|   |   |-- resources/
+|   |   |   |-- 3dogs.jpg
+|   |   |   |-- 3dogs_mask.png
+|   |   |   |-- cascade_encoder_decoder_dataflow.png
+|   |   |   |-- encoder_decoder_dataflow.png
+|   |   |   |-- miaomiao_qrcode.jpg
+|   |   |   |-- mmseg-logo.png
+|   |   |   |-- seg_demo.gif
+|   |   |   |-- test_step.png
+|   |   |   `-- train_step.png
+|   |   |-- tests/
+|   |   |   |-- data/
+|   |   |   |   |-- dsdl_seg/
+|   |   |   |   |   |-- defs/
+|   |   |   |   |   |   |-- class-dom.yaml
+|   |   |   |   |   |   `-- segmentation-def.yaml
+|   |   |   |   |   |-- set-train/
+|   |   |   |   |   |   |-- train.yaml
+|   |   |   |   |   |   `-- train_samples.json
+|   |   |   |   |   `-- config.py
+|   |   |   |   |-- pseudo_bdd100k_dataset/
+|   |   |   |   |   |-- images/
+|   |   |   |   |   |   `-- 10k/
+|   |   |   |   |   |       |-- train/
+|   |   |   |   |   |       |   |-- 0004a4c0-d4dff0ad.jpg
+|   |   |   |   |   |       |   |-- 00054602-3bf57337.jpg
+|   |   |   |   |   |       |   `-- 00067cfb-e535423e.jpg
+|   |   |   |   |   |       `-- val/
+|   |   |   |   |   |           |-- 7d06fefd-f7be05a6.jpg
+|   |   |   |   |   |           |-- 7d128593-0ccfea4c.jpg
+|   |   |   |   |   |           `-- 7d15b18b-1e0d6e3f.jpg
+|   |   |   |   |   `-- labels/
+|   |   |   |   |       `-- sem_seg/
+|   |   |   |   |           |-- colormaps/
+|   |   |   |   |           |   |-- train/
+|   |   |   |   |           |   |   |-- 0004a4c0-d4dff0ad.png
+|   |   |   |   |           |   |   |-- 00054602-3bf57337.png
+|   |   |   |   |           |   |   `-- 00067cfb-e535423e.png
+|   |   |   |   |           |   `-- val/
+|   |   |   |   |           |       |-- 7d128593-0ccfea4c.png
+|   |   |   |   |           |       |-- 7d15b18b-1e0d6e3f.png
+|   |   |   |   |           |       `-- 7d2f7975-e0c1c5a7.png
+|   |   |   |   |           `-- masks/
+|   |   |   |   |               |-- train/
+|   |   |   |   |               |   |-- 0004a4c0-d4dff0ad.png
+|   |   |   |   |               |   |-- 00054602-3bf57337.png
+|   |   |   |   |               |   `-- 00067cfb-e535423e.png
+|   |   |   |   |               `-- val/
+|   |   |   |   |                   |-- 7d06fefd-f7be05a6.png
+|   |   |   |   |                   |-- 7d128593-0ccfea4c.png
+|   |   |   |   |                   `-- 7d15b18b-1e0d6e3f.png
+|   |   |   |   |-- pseudo_cityscapes_dataset/
+|   |   |   |   |   |-- gtFine/
+|   |   |   |   |   |   `-- val/
+|   |   |   |   |   |       `-- frankfurt/
+|   |   |   |   |   |           |-- frankfurt_000000_000294_gtFine_instanceIds.png
+|   |   |   |   |   |           |-- frankfurt_000000_000294_gtFine_labelIds.png
+|   |   |   |   |   |           `-- frankfurt_000000_000294_gtFine_labelTrainIds.png
+|   |   |   |   |   `-- leftImg8bit/
+|   |   |   |   |       `-- val/
+|   |   |   |   |           `-- frankfurt/
+|   |   |   |   |               `-- frankfurt_000000_000294_leftImg8bit.png
+|   |   |   |   |-- pseudo_dataset/
+|   |   |   |   |   |-- gts/
+|   |   |   |   |   |   |-- 00000_gt.png
+|   |   |   |   |   |   |-- 00001_gt.png
+|   |   |   |   |   |   |-- 00002_gt.png
+|   |   |   |   |   |   |-- 00003_gt.png
+|   |   |   |   |   |   `-- 00004_gt.png
+|   |   |   |   |   |-- imgs/
+|   |   |   |   |   |   |-- 00000_img.jpg
+|   |   |   |   |   |   |-- 00001_img.jpg
+|   |   |   |   |   |   |-- 00002_img.jpg
+|   |   |   |   |   |   |-- 00003_img.jpg
+|   |   |   |   |   |   `-- 00004_img.jpg
+|   |   |   |   |   `-- splits/
+|   |   |   |   |       |-- train.txt
+|   |   |   |   |       `-- val.txt
+|   |   |   |   |-- pseudo_isaid_dataset/
+|   |   |   |   |   |-- ann_dir/
+|   |   |   |   |   |   |-- P0000_0_896_1024_1920_instance_color_RGB.png
+|   |   |   |   |   |   `-- P0000_0_896_1536_2432_instance_color_RGB.png
+|   |   |   |   |   |-- img_dir/
+|   |   |   |   |   |   |-- P0000_0_896_1024_1920.png
+|   |   |   |   |   |   `-- P0000_0_896_1536_2432.png
+|   |   |   |   |   `-- splits/
+|   |   |   |   |       |-- train.txt
+|   |   |   |   |       `-- val.txt
+|   |   |   |   |-- pseudo_lip_dataset/
+|   |   |   |   |   |-- train_images/
+|   |   |   |   |   |   `-- 684_2150041.jpg
+|   |   |   |   |   |-- train_segmentations/
+|   |   |   |   |   |   `-- 684_2150041.png
+|   |   |   |   |   |-- val_images/
+|   |   |   |   |   |   `-- 86_185913.jpg
+|   |   |   |   |   `-- val_segmentations/
+|   |   |   |   |       `-- 86_185913.png
+|   |   |   |   |-- pseudo_loveda_dataset/
+|   |   |   |   |   |-- ann_dir/
+|   |   |   |   |   |   |-- 0.png
+|   |   |   |   |   |   |-- 1.png
+|   |   |   |   |   |   `-- 2.png
+|   |   |   |   |   `-- img_dir/
+|   |   |   |   |       |-- 0.png
+|   |   |   |   |       |-- 1.png
+|   |   |   |   |       `-- 2.png
+|   |   |   |   |-- pseudo_mapillary_dataset/
+|   |   |   |   |   |-- images/
+|   |   |   |   |   |   `-- __CRyFzoDOXn6unQ6a3DnQ.jpg
+|   |   |   |   |   |-- v1.2/
+|   |   |   |   |   |   `-- __CRyFzoDOXn6unQ6a3DnQ.png
+|   |   |   |   |   `-- v2.0/
+|   |   |   |   |       `-- __CRyFzoDOXn6unQ6a3DnQ.png
+|   |   |   |   |-- pseudo_nyu_dataset/
+|   |   |   |   |   |-- annotations/
+|   |   |   |   |   |   `-- bookstore_0001d_00001.png
+|   |   |   |   |   `-- images/
+|   |   |   |   |       `-- bookstore_0001d_00001.jpg
+|   |   |   |   |-- pseudo_potsdam_dataset/
+|   |   |   |   |   |-- ann_dir/
+|   |   |   |   |   |   `-- 2_10_0_0_512_512.png
+|   |   |   |   |   `-- img_dir/
+|   |   |   |   |       `-- 2_10_0_0_512_512.png
+|   |   |   |   |-- pseudo_refuge_dataset/
+|   |   |   |   |   |-- ann_dir/
+|   |   |   |   |   |   `-- pseudo_g0001.png
+|   |   |   |   |   `-- img_dir/
+|   |   |   |   |       `-- pseudo_g0001.png
+|   |   |   |   |-- pseudo_synapse_dataset/
+|   |   |   |   |   |-- ann_dir/
+|   |   |   |   |   |   |-- case0005_slice000.png
+|   |   |   |   |   |   `-- case0005_slice001.png
+|   |   |   |   |   `-- img_dir/
+|   |   |   |   |       |-- case0005_slice000.jpg
+|   |   |   |   |       `-- case0005_slice001.jpg
+|   |   |   |   |-- pseudo_vaihingen_dataset/
+|   |   |   |   |   |-- ann_dir/
+|   |   |   |   |   |   `-- area1_0_0_512_512.png
+|   |   |   |   |   `-- img_dir/
+|   |   |   |   |       `-- area1_0_0_512_512.png
+|   |   |   |   |-- biomedical.nii.gz
+|   |   |   |   |-- biomedical.npy
+|   |   |   |   |-- biomedical.pkl
+|   |   |   |   |-- biomedical_ann.nii.gz
+|   |   |   |   |-- color.jpg
+|   |   |   |   |-- dataset.json
+|   |   |   |   |-- gray.jpg
+|   |   |   |   `-- seg.png
+|   |   |   |-- test_apis/
+|   |   |   |   |-- test_inferencer.py
+|   |   |   |   |-- test_rs_inferencer.py
+|   |   |   |   `-- utils.py
+|   |   |   |-- test_datasets/
+|   |   |   |   |-- test_dataset.py
+|   |   |   |   |-- test_dataset_builder.py
+|   |   |   |   |-- test_formatting.py
+|   |   |   |   |-- test_loading.py
+|   |   |   |   |-- test_transform.py
+|   |   |   |   `-- test_tta.py
+|   |   |   |-- test_engine/
+|   |   |   |   |-- test_layer_decay_optimizer_constructor.py
+|   |   |   |   |-- test_optimizer.py
+|   |   |   |   `-- test_visualization_hook.py
+|   |   |   |-- test_evaluation/
+|   |   |   |   `-- test_metrics/
+|   |   |   |       |-- test_citys_metric.py
+|   |   |   |       |-- test_depth_metric.py
+|   |   |   |       `-- test_iou_metric.py
+|   |   |   |-- test_models/
+|   |   |   |   |-- test_assigners/
+|   |   |   |   |   `-- test_hungarian_assigner.py
+|   |   |   |   |-- test_backbones/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- test_beit.py
+|   |   |   |   |   |-- test_bisenetv1.py
+|   |   |   |   |   |-- test_bisenetv2.py
+|   |   |   |   |   |-- test_blocks.py
+|   |   |   |   |   |-- test_cgnet.py
+|   |   |   |   |   |-- test_clip_text_encoder.py
+|   |   |   |   |   |-- test_erfnet.py
+|   |   |   |   |   |-- test_fast_scnn.py
+|   |   |   |   |   |-- test_hrnet.py
+|   |   |   |   |   |-- test_icnet.py
+|   |   |   |   |   |-- test_mae.py
+|   |   |   |   |   |-- test_mit.py
+|   |   |   |   |   |-- test_mobilenet_v3.py
+|   |   |   |   |   |-- test_mscan.py
+|   |   |   |   |   |-- test_pidnet.py
+|   |   |   |   |   |-- test_resnest.py
+|   |   |   |   |   |-- test_resnet.py
+|   |   |   |   |   |-- test_resnext.py
+|   |   |   |   |   |-- test_stdc.py
+|   |   |   |   |   |-- test_swin.py
+|   |   |   |   |   |-- test_timm_backbone.py
+|   |   |   |   |   |-- test_twins.py
+|   |   |   |   |   |-- test_unet.py
+|   |   |   |   |   |-- test_vit.py
+|   |   |   |   |   |-- test_vpd.py
+|   |   |   |   |   `-- utils.py
+|   |   |   |   |-- test_heads/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- test_ann_head.py
+|   |   |   |   |   |-- test_apc_head.py
+|   |   |   |   |   |-- test_aspp_head.py
+|   |   |   |   |   |-- test_cc_head.py
+|   |   |   |   |   |-- test_decode_head.py
+|   |   |   |   |   |-- test_dm_head.py
+|   |   |   |   |   |-- test_dnl_head.py
+|   |   |   |   |   |-- test_dpt_head.py
+|   |   |   |   |   |-- test_ema_head.py
+|   |   |   |   |   |-- test_fcn_head.py
+|   |   |   |   |   |-- test_gc_head.py
+|   |   |   |   |   |-- test_ham_head.py
+|   |   |   |   |   |-- test_isa_head.py
+|   |   |   |   |   |-- test_lraspp_head.py
+|   |   |   |   |   |-- test_mask2former_head.py
+|   |   |   |   |   |-- test_maskformer_head.py
+|   |   |   |   |   |-- test_nl_head.py
+|   |   |   |   |   |-- test_ocr_head.py
+|   |   |   |   |   |-- test_pidnet_head.py
+|   |   |   |   |   |-- test_psa_head.py
+|   |   |   |   |   |-- test_psp_head.py
+|   |   |   |   |   |-- test_san_head.py
+|   |   |   |   |   |-- test_segformer_head.py
+|   |   |   |   |   |-- test_segmenter_mask_head.py
+|   |   |   |   |   |-- test_setr_mla_head.py
+|   |   |   |   |   |-- test_setr_up_head.py
+|   |   |   |   |   |-- test_uper_head.py
+|   |   |   |   |   |-- test_vpd_depth_head.py
+|   |   |   |   |   `-- utils.py
+|   |   |   |   |-- test_losses/
+|   |   |   |   |   |-- test_cross_entropy_loss.py
+|   |   |   |   |   |-- test_dice_loss.py
+|   |   |   |   |   |-- test_huasdorff_distance_loss.py
+|   |   |   |   |   |-- test_kldiv_loss.py
+|   |   |   |   |   |-- test_silog_loss.py
+|   |   |   |   |   `-- test_tversky_loss.py
+|   |   |   |   |-- test_necks/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- test_feature2pyramid.py
+|   |   |   |   |   |-- test_fpn.py
+|   |   |   |   |   |-- test_ic_neck.py
+|   |   |   |   |   |-- test_jpu.py
+|   |   |   |   |   |-- test_mla_neck.py
+|   |   |   |   |   `-- test_multilevel_neck.py
+|   |   |   |   |-- test_segmentors/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- test_cascade_encoder_decoder.py
+|   |   |   |   |   |-- test_depth_estimator.py
+|   |   |   |   |   |-- test_encoder_decoder.py
+|   |   |   |   |   |-- test_multimodal_encoder_decoder.py
+|   |   |   |   |   |-- test_seg_tta_model.py
+|   |   |   |   |   `-- utils.py
+|   |   |   |   |-- test_utils/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- test_embed.py
+|   |   |   |   |   `-- test_shape_convert.py
+|   |   |   |   |-- __init__.py
+|   |   |   |   |-- test_data_preprocessor.py
+|   |   |   |   `-- test_forward.py
+|   |   |   |-- test_structures/
+|   |   |   |   `-- test_seg_data_sample.py
+|   |   |   |-- test_utils/
+|   |   |   |   |-- test_io.py
+|   |   |   |   `-- test_set_env.py
+|   |   |   |-- test_visualization/
+|   |   |   |   `-- test_local_visualizer.py
+|   |   |   |-- __init__.py
+|   |   |   |-- test_config.py
+|   |   |   |-- test_digit_version.py
+|   |   |   `-- test_sampler.py
+|   |   |-- tools/
+|   |   |   |-- analysis_tools/
+|   |   |   |   |-- analyze_logs.py
+|   |   |   |   |-- benchmark.py
+|   |   |   |   |-- browse_dataset.py
+|   |   |   |   |-- confusion_matrix.py
+|   |   |   |   |-- get_flops.py
+|   |   |   |   `-- visualization_cam.py
+|   |   |   |-- dataset_converters/
+|   |   |   |   |-- chase_db1.py
+|   |   |   |   |-- cityscapes.py
+|   |   |   |   |-- coco_stuff10k.py
+|   |   |   |   |-- coco_stuff164k.py
+|   |   |   |   |-- drive.py
+|   |   |   |   |-- hrf.py
+|   |   |   |   |-- isaid.py
+|   |   |   |   |-- levircd.py
+|   |   |   |   |-- loveda.py
+|   |   |   |   |-- nyu.py
+|   |   |   |   |-- pascal_context.py
+|   |   |   |   |-- potsdam.py
+|   |   |   |   |-- refuge.py
+|   |   |   |   |-- stare.py
+|   |   |   |   |-- synapse.py
+|   |   |   |   |-- vaihingen.py
+|   |   |   |   `-- voc_aug.py
+|   |   |   |-- deployment/
+|   |   |   |   `-- pytorch2torchscript.py
+|   |   |   |-- misc/
+|   |   |   |   |-- browse_dataset.py
+|   |   |   |   |-- print_config.py
+|   |   |   |   `-- publish_model.py
+|   |   |   |-- model_converters/
+|   |   |   |   |-- beit2mmseg.py
+|   |   |   |   |-- clip2mmseg.py
+|   |   |   |   |-- mit2mmseg.py
+|   |   |   |   |-- san2mmseg.py
+|   |   |   |   |-- stdc2mmseg.py
+|   |   |   |   |-- swin2mmseg.py
+|   |   |   |   |-- twins2mmseg.py
+|   |   |   |   |-- vit2mmseg.py
+|   |   |   |   `-- vitjax2mmseg.py
+|   |   |   |-- torchserve/
+|   |   |   |   |-- mmseg2torchserve.py
+|   |   |   |   |-- mmseg_handler.py
+|   |   |   |   `-- test_torchserve.py
+|   |   |   |-- dist_test.sh
+|   |   |   |-- dist_train.sh
+|   |   |   |-- slurm_test.sh
+|   |   |   |-- slurm_train.sh
+|   |   |   |-- test.py
+|   |   |   `-- train.py
+|   |   |-- .gitignore
+|   |   |-- .owners.yml
+|   |   |-- .pre-commit-config.yaml
+|   |   |-- .readthedocs.yml
+|   |   |-- CITATION.cff
+|   |   |-- dataset-index.yml
+|   |   |-- LICENSE
+|   |   |-- MANIFEST.in
+|   |   |-- model-index.yml
+|   |   |-- README.md
+|   |   |-- README_zh-CN.md
+|   |   |-- requirements.txt
+|   |   |-- setup.cfg
+|   |   `-- setup.py
+|   |-- sam2/
+|   |   |-- .github/
+|   |   |   `-- workflows/
+|   |   |       `-- check_fmt.yml
+|   |   |-- assets/
+|   |   |   |-- model_diagram.png
+|   |   |   `-- sa_v_dataset.jpg
+|   |   |-- checkpoints/
+|   |   |   `-- download_ckpts.sh
+|   |   |-- demo/
+|   |   |   |-- backend/
+|   |   |   |   `-- server/
+|   |   |   |       |-- data/
+|   |   |   |       |   |-- data_types.py
+|   |   |   |       |   |-- loader.py
+|   |   |   |       |   |-- resolver.py
+|   |   |   |       |   |-- schema.py
+|   |   |   |       |   |-- store.py
+|   |   |   |       |   `-- transcoder.py
+|   |   |   |       |-- inference/
+|   |   |   |       |   |-- data_types.py
+|   |   |   |       |   |-- multipart.py
+|   |   |   |       |   `-- predictor.py
+|   |   |   |       |-- app.py
+|   |   |   |       `-- app_conf.py
+|   |   |   |-- data/
+|   |   |   |   `-- gallery/
+|   |   |   |       |-- 01_dog.mp4
+|   |   |   |       |-- 02_cups.mp4
+|   |   |   |       |-- 03_blocks.mp4
+|   |   |   |       |-- 04_coffee.mp4
+|   |   |   |       `-- 05_default_juggle.mp4
+|   |   |   |-- frontend/
+|   |   |   |   |-- public/
+|   |   |   |   |   `-- fonts/
+|   |   |   |   |       `-- Inter-VariableFont_opsz,wght.ttf
+|   |   |   |   |-- schemas/
+|   |   |   |   |   |-- inference-api-schema.graphql
+|   |   |   |   |   |-- merge-schemas.ts
+|   |   |   |   |   `-- video-api-schema.graphql
+|   |   |   |   |-- src/
+|   |   |   |   |   |-- assets/
+|   |   |   |   |   |   |-- icons/
+|   |   |   |   |   |   |   |-- angery.png
+|   |   |   |   |   |   |   |-- heart.png
+|   |   |   |   |   |   |   `-- whistle.png
+|   |   |   |   |   |   |-- scss/
+|   |   |   |   |   |   |   `-- App.scss
+|   |   |   |   |   |   `-- videos/
+|   |   |   |   |   |       |-- sam2_720px_dark.mp4
+|   |   |   |   |   |       `-- sam2_video_poster.png
+|   |   |   |   |   |-- common/
+|   |   |   |   |   |   |-- codecs/
+|   |   |   |   |   |   |   |-- VideoDecoder.ts
+|   |   |   |   |   |   |   |-- VideoEncoder.ts
+|   |   |   |   |   |   |   `-- WebCodecUtils.ts
+|   |   |   |   |   |   |-- components/
+|   |   |   |   |   |   |   |-- annotations/
+|   |   |   |   |   |   |   |   |-- AddObjectButton.tsx
+|   |   |   |   |   |   |   |   |-- ClearAllPointsInVideoButton.tsx
+|   |   |   |   |   |   |   |   |-- CloseSessionButton.tsx
+|   |   |   |   |   |   |   |   |-- FirstClickView.tsx
+|   |   |   |   |   |   |   |   |-- LimitNotice.tsx
+|   |   |   |   |   |   |   |   |-- MobileObjectsList.tsx
+|   |   |   |   |   |   |   |   |-- MobileObjectsToolbar.tsx
+|   |   |   |   |   |   |   |   |-- MobileObjectsToolbarHeader.tsx
+|   |   |   |   |   |   |   |   |-- ObjectActions.tsx
+|   |   |   |   |   |   |   |   |-- ObjectPlaceholder.tsx
+|   |   |   |   |   |   |   |   |-- ObjectsToolbar.tsx
+|   |   |   |   |   |   |   |   |-- ObjectsToolbarBottomActions.tsx
+|   |   |   |   |   |   |   |   |-- ObjectsToolbarHeader.tsx
+|   |   |   |   |   |   |   |   |-- ObjectThumbnail.tsx
+|   |   |   |   |   |   |   |   |-- ObjectUtils.ts
+|   |   |   |   |   |   |   |   |-- PointsToggle.tsx
+|   |   |   |   |   |   |   |   |-- PrimaryCTAButton.tsx
+|   |   |   |   |   |   |   |   |-- ToolbarObject.tsx
+|   |   |   |   |   |   |   |   |-- ToolbarObjectContainer.tsx
+|   |   |   |   |   |   |   |   |-- TrackletsAnnotation.tsx
+|   |   |   |   |   |   |   |   |-- TrackletSwimlane.tsx
+|   |   |   |   |   |   |   |   `-- useTracklets.ts
+|   |   |   |   |   |   |   |-- button/
+|   |   |   |   |   |   |   |   |-- GradientBorder.tsx
+|   |   |   |   |   |   |   |   |-- PlaybackButton.tsx
+|   |   |   |   |   |   |   |   |-- PrimaryCTAButton.tsx
+|   |   |   |   |   |   |   |   |-- ResponsiveButton.tsx
+|   |   |   |   |   |   |   |   `-- TrackAndPlayButton.tsx
+|   |   |   |   |   |   |   |-- code/
+|   |   |   |   |   |   |   |   `-- InitializeLocalMonaco.ts
+|   |   |   |   |   |   |   |-- effects/
+|   |   |   |   |   |   |   |   |-- BackgroundEffects.tsx
+|   |   |   |   |   |   |   |   |-- EffectsCarousel.tsx
+|   |   |   |   |   |   |   |   |-- EffectsCarouselShadow.tsx
+|   |   |   |   |   |   |   |   |-- EffectsToolbar.tsx
+|   |   |   |   |   |   |   |   |-- EffectsToolbarBottomActions.tsx
+|   |   |   |   |   |   |   |   |-- EffectsToolbarHeader.tsx
+|   |   |   |   |   |   |   |   |-- EffectsUtils.ts
+|   |   |   |   |   |   |   |   |-- EffectVariantBadge.tsx
+|   |   |   |   |   |   |   |   |-- HighlightEffects.tsx
+|   |   |   |   |   |   |   |   |-- MobileEffectsToolbar.tsx
+|   |   |   |   |   |   |   |   `-- MoreFunEffects.tsx
+|   |   |   |   |   |   |   |-- gallery/
+|   |   |   |   |   |   |   |   |-- __generated__/
+|   |   |   |   |   |   |   |   |   |-- DemoVideoGalleryModalQuery.graphql.ts
+|   |   |   |   |   |   |   |   |   |-- DemoVideoGalleryQuery.graphql.ts
+|   |   |   |   |   |   |   |   |   `-- useUploadVideoMutation.graphql.ts
+|   |   |   |   |   |   |   |   |-- ChangeVideoModal.tsx
+|   |   |   |   |   |   |   |   |-- DefaultVideoGalleryModalTrigger.tsx
+|   |   |   |   |   |   |   |   |-- DemoVideoGallery.tsx
+|   |   |   |   |   |   |   |   |-- DemoVideoGalleryModal.tsx
+|   |   |   |   |   |   |   |   |-- useUploadVideo.ts
+|   |   |   |   |   |   |   |   |-- VideoGalleryUploadPhoto.tsx
+|   |   |   |   |   |   |   |   `-- VideoPhoto.tsx
+|   |   |   |   |   |   |   |-- icons/
+|   |   |   |   |   |   |   |   `-- GitHubIcon.tsx
+|   |   |   |   |   |   |   |-- options/
+|   |   |   |   |   |   |   |   |-- __generated__/
+|   |   |   |   |   |   |   |   |   `-- GetLinkOptionShareVideoMutation.graphql.ts
+|   |   |   |   |   |   |   |   |-- DownloadOption.tsx
+|   |   |   |   |   |   |   |   |-- GalleryOption.tsx
+|   |   |   |   |   |   |   |   |-- MoreOptionsToolbar.tsx
+|   |   |   |   |   |   |   |   |-- MoreOptionsToolbarBottomActions.tsx
+|   |   |   |   |   |   |   |   |-- OptionButton.tsx
+|   |   |   |   |   |   |   |   |-- ShareSection.tsx
+|   |   |   |   |   |   |   |   |-- ShareUtils.ts
+|   |   |   |   |   |   |   |   |-- TryAnotherVideoSection.tsx
+|   |   |   |   |   |   |   |   |-- UploadOption.tsx
+|   |   |   |   |   |   |   |   `-- useDownloadVideo.ts
+|   |   |   |   |   |   |   |-- session/
+|   |   |   |   |   |   |   |   |-- __generated__/
+|   |   |   |   |   |   |   |   |   `-- useCloseSessionBeforeUnloadMutation.graphql.ts
+|   |   |   |   |   |   |   |   |-- RestartSessionButton.tsx
+|   |   |   |   |   |   |   |   |-- useCloseSessionBeforeUnload.ts
+|   |   |   |   |   |   |   |   `-- useRestartSession.ts
+|   |   |   |   |   |   |   |-- snackbar/
+|   |   |   |   |   |   |   |   |-- DemoMessagesSnackbarUtils.ts
+|   |   |   |   |   |   |   |   |-- MessagesSnackbar.tsx
+|   |   |   |   |   |   |   |   |-- snackbarAtoms.ts
+|   |   |   |   |   |   |   |   |-- useDemoMessagesSnackbar.ts
+|   |   |   |   |   |   |   |   |-- useExpireMessage.ts
+|   |   |   |   |   |   |   |   `-- useMessagesSnackbar.ts
+|   |   |   |   |   |   |   |-- toolbar/
+|   |   |   |   |   |   |   |   |-- DesktopToolbar.tsx
+|   |   |   |   |   |   |   |   |-- MobileToolbar.tsx
+|   |   |   |   |   |   |   |   |-- Toolbar.tsx
+|   |   |   |   |   |   |   |   |-- ToolbarActionIcon.tsx
+|   |   |   |   |   |   |   |   |-- ToolbarBottomActionsWrapper.tsx
+|   |   |   |   |   |   |   |   |-- ToolbarConfig.tsx
+|   |   |   |   |   |   |   |   |-- ToolbarHeaderWrapper.tsx
+|   |   |   |   |   |   |   |   |-- ToolbarProgressChip.tsx
+|   |   |   |   |   |   |   |   |-- ToolbarSection.tsx
+|   |   |   |   |   |   |   |   |-- useListenToStreamingState.ts
+|   |   |   |   |   |   |   |   `-- useToolbarTabs.ts
+|   |   |   |   |   |   |   |-- video/
+|   |   |   |   |   |   |   |   |-- editor/
+|   |   |   |   |   |   |   |   |   |-- atoms.ts
+|   |   |   |   |   |   |   |   |   |-- DemoVideoEditor.tsx
+|   |   |   |   |   |   |   |   |   |-- ImageUtils.ts
+|   |   |   |   |   |   |   |   |   |-- useResetEditor.ts
+|   |   |   |   |   |   |   |   |   |-- useVideo.ts
+|   |   |   |   |   |   |   |   |   |-- useVideoEffect.ts
+|   |   |   |   |   |   |   |   |   |-- VideoEditor.tsx
+|   |   |   |   |   |   |   |   |   `-- VideoEditorUtils.ts
+|   |   |   |   |   |   |   |   |-- effects/
+|   |   |   |   |   |   |   |   |   |-- shaders/
+|   |   |   |   |   |   |   |   |   |   |-- Arrow.frag
+|   |   |   |   |   |   |   |   |   |   |-- BackgroundBlur.frag
+|   |   |   |   |   |   |   |   |   |   |-- Burst.frag
+|   |   |   |   |   |   |   |   |   |   |-- Cutout.frag
+|   |   |   |   |   |   |   |   |   |   |-- DefaultVert.vert
+|   |   |   |   |   |   |   |   |   |   |-- EraseForeground.frag
+|   |   |   |   |   |   |   |   |   |   |-- Gradient.frag
+|   |   |   |   |   |   |   |   |   |   |-- NoisyMask.frag
+|   |   |   |   |   |   |   |   |   |   |-- Overlay.frag
+|   |   |   |   |   |   |   |   |   |   |-- Overlay.vert
+|   |   |   |   |   |   |   |   |   |   |-- Pixelate.frag
+|   |   |   |   |   |   |   |   |   |   |-- PixelateMask.frag
+|   |   |   |   |   |   |   |   |   |   |-- Replace.frag
+|   |   |   |   |   |   |   |   |   |   |-- Scope.frag
+|   |   |   |   |   |   |   |   |   |   |-- Sobel.frag
+|   |   |   |   |   |   |   |   |   |   `-- VibrantMask.frag
+|   |   |   |   |   |   |   |   |   |-- ArrowGLEffect.ts
+|   |   |   |   |   |   |   |   |   |-- BackgroundBlurEffect.ts
+|   |   |   |   |   |   |   |   |   |-- BackgroundTextEffect.ts
+|   |   |   |   |   |   |   |   |   |-- BaseGLEffect.ts
+|   |   |   |   |   |   |   |   |   |-- BurstGLEffect.ts
+|   |   |   |   |   |   |   |   |   |-- CutoutGLEffect.ts
+|   |   |   |   |   |   |   |   |   |-- DesaturateEffect.ts
+|   |   |   |   |   |   |   |   |   |-- Effect.ts
+|   |   |   |   |   |   |   |   |   |-- Effects.ts
+|   |   |   |   |   |   |   |   |   |-- EffectUtils.ts
+|   |   |   |   |   |   |   |   |   |-- EraseBackgroundEffect.ts
+|   |   |   |   |   |   |   |   |   |-- EraseForegroundEffect.ts
+|   |   |   |   |   |   |   |   |   |-- EraseForegroundGLEffect.ts
+|   |   |   |   |   |   |   |   |   |-- GradientEffect.ts
+|   |   |   |   |   |   |   |   |   |-- NoisyMaskEffect.ts
+|   |   |   |   |   |   |   |   |   |-- OriginalEffect.ts
+|   |   |   |   |   |   |   |   |   |-- OverlayEffect.ts
+|   |   |   |   |   |   |   |   |   |-- PixelateEffect.ts
+|   |   |   |   |   |   |   |   |   |-- PixelateMaskGLEffect.ts
+|   |   |   |   |   |   |   |   |   |-- ReplaceGLEffect.ts
+|   |   |   |   |   |   |   |   |   |-- ScopeGLEffect.ts
+|   |   |   |   |   |   |   |   |   |-- SobelEffect.ts
+|   |   |   |   |   |   |   |   |   `-- VibrantMaskEffect.ts
+|   |   |   |   |   |   |   |   |-- filmstrip/
+|   |   |   |   |   |   |   |   |   |-- atoms.ts
+|   |   |   |   |   |   |   |   |   |-- FilmstripUtil.tsx
+|   |   |   |   |   |   |   |   |   |-- SelectedFrameHelper.ts
+|   |   |   |   |   |   |   |   |   |-- useDisableScrolling.ts
+|   |   |   |   |   |   |   |   |   |-- useSelectedFrameHelper.ts
+|   |   |   |   |   |   |   |   |   `-- VideoFilmstrip.tsx
+|   |   |   |   |   |   |   |   |-- layers/
+|   |   |   |   |   |   |   |   |   |-- InteractionLayer.tsx
+|   |   |   |   |   |   |   |   |   `-- PointsLayer.tsx
+|   |   |   |   |   |   |   |   |-- ChangeVideoModal.tsx
+|   |   |   |   |   |   |   |   |-- EventEmitter.ts
+|   |   |   |   |   |   |   |   |-- useInputVideo.ts
+|   |   |   |   |   |   |   |   |-- useVideoWorker.ts
+|   |   |   |   |   |   |   |   |-- Video.tsx
+|   |   |   |   |   |   |   |   |-- VideoFilmstripWithPlayback.tsx
+|   |   |   |   |   |   |   |   |-- VideoLoadingOverlay.tsx
+|   |   |   |   |   |   |   |   |-- VideoWorker.ts
+|   |   |   |   |   |   |   |   |-- VideoWorkerBridge.ts
+|   |   |   |   |   |   |   |   |-- VideoWorkerContext.ts
+|   |   |   |   |   |   |   |   `-- VideoWorkerTypes.ts
+|   |   |   |   |   |   |   |-- MobileFirstClickBanner.tsx
+|   |   |   |   |   |   |   |-- Tooltip.tsx
+|   |   |   |   |   |   |   `-- useFunctionThrottle.tsx
+|   |   |   |   |   |   |-- error/
+|   |   |   |   |   |   |   |-- ErrorFallback.tsx
+|   |   |   |   |   |   |   |-- ErrorReport.tsx
+|   |   |   |   |   |   |   |-- errorReportAtom.ts
+|   |   |   |   |   |   |   |-- ErrorSerializationUtils.ts
+|   |   |   |   |   |   |   |-- ErrorUtils.ts
+|   |   |   |   |   |   |   `-- useReportError.tsx
+|   |   |   |   |   |   |-- loading/
+|   |   |   |   |   |   |   |-- LoadingMessage.tsx
+|   |   |   |   |   |   |   |-- LoadingStateScreen.tsx
+|   |   |   |   |   |   |   |-- StaticVideoPlayer.tsx
+|   |   |   |   |   |   |   `-- UploadLoadingScreen.tsx
+|   |   |   |   |   |   |-- logger/
+|   |   |   |   |   |   |   |-- DemoLogger.ts
+|   |   |   |   |   |   |   |-- LogEnvironment.ts
+|   |   |   |   |   |   |   `-- Logger.ts
+|   |   |   |   |   |   |-- screen/
+|   |   |   |   |   |   |   `-- useScreenSize.tsx
+|   |   |   |   |   |   |-- tracker/
+|   |   |   |   |   |   |   |-- __generated__/
+|   |   |   |   |   |   |   |   |-- SAM2ModelAddNewPointsMutation.graphql.ts
+|   |   |   |   |   |   |   |   |-- SAM2ModelCancelPropagateInVideoMutation.graphql.ts
+|   |   |   |   |   |   |   |   |-- SAM2ModelClearPointsInFrameMutation.graphql.ts
+|   |   |   |   |   |   |   |   |-- SAM2ModelClearPointsInVideoMutation.graphql.ts
+|   |   |   |   |   |   |   |   |-- SAM2ModelCloseSessionMutation.graphql.ts
+|   |   |   |   |   |   |   |   |-- SAM2ModelRemoveObjectMutation.graphql.ts
+|   |   |   |   |   |   |   |   `-- SAM2ModelStartSessionMutation.graphql.ts
+|   |   |   |   |   |   |   |-- SAM2Model.ts
+|   |   |   |   |   |   |   |-- Tracker.ts
+|   |   |   |   |   |   |   |-- Trackers.ts
+|   |   |   |   |   |   |   `-- TrackerTypes.ts
+|   |   |   |   |   |   `-- utils/
+|   |   |   |   |   |       |-- emptyFunction.ts
+|   |   |   |   |   |       |-- FileUtils.ts
+|   |   |   |   |   |       |-- ImageUtils.ts
+|   |   |   |   |   |       |-- MaskUtils.ts
+|   |   |   |   |   |       |-- MultipartStream.ts
+|   |   |   |   |   |       |-- ShaderUtils.ts
+|   |   |   |   |   |       `-- uuid.ts
+|   |   |   |   |   |-- debug/
+|   |   |   |   |   |   `-- stats/
+|   |   |   |   |   |       |-- Stats.ts
+|   |   |   |   |   |       `-- StatsView.tsx
+|   |   |   |   |   |-- demo/
+|   |   |   |   |   |   |-- atoms.ts
+|   |   |   |   |   |   |-- DemoConfig.tsx
+|   |   |   |   |   |   |-- DemoErrorFallback.tsx
+|   |   |   |   |   |   |-- DemoSuspenseFallback.tsx
+|   |   |   |   |   |   `-- SAM2DemoApp.tsx
+|   |   |   |   |   |-- graphql/
+|   |   |   |   |   |   |-- errors/
+|   |   |   |   |   |   |   |-- CreateFilmstripError.ts
+|   |   |   |   |   |   |   |-- DrawFrameError.ts
+|   |   |   |   |   |   |   `-- WebGLContextError.ts
+|   |   |   |   |   |   |-- fetchGraphQL.ts
+|   |   |   |   |   |   |-- RelayEnvironment.ts
+|   |   |   |   |   |   `-- RelayEnvironmentProvider.tsx
+|   |   |   |   |   |-- jscocotools/
+|   |   |   |   |   |   `-- mask.ts
+|   |   |   |   |   |-- layouts/
+|   |   |   |   |   |   |-- DemoPageLayout.tsx
+|   |   |   |   |   |   `-- RootLayout.tsx
+|   |   |   |   |   |-- routes/
+|   |   |   |   |   |   |-- __generated__/
+|   |   |   |   |   |   |   `-- DemoPageQuery.graphql.ts
+|   |   |   |   |   |   |-- DemoPage.tsx
+|   |   |   |   |   |   |-- DemoPageWrapper.tsx
+|   |   |   |   |   |   `-- PageNotFoundPage.tsx
+|   |   |   |   |   |-- settings/
+|   |   |   |   |   |   |-- ApprovableInput.tsx
+|   |   |   |   |   |   |-- SAM2Settings.tsx
+|   |   |   |   |   |   |-- SettingsContextProvider.tsx
+|   |   |   |   |   |   |-- SettingsModal.tsx
+|   |   |   |   |   |   |-- SettingsReducer.ts
+|   |   |   |   |   |   `-- useSettingsContext.tsx
+|   |   |   |   |   |-- theme/
+|   |   |   |   |   |   |-- colors.ts
+|   |   |   |   |   |   |-- gradientStyle.ts
+|   |   |   |   |   |   `-- tokens.stylex.ts
+|   |   |   |   |   |-- types/
+|   |   |   |   |   |   `-- mp4box/
+|   |   |   |   |   |       `-- index.d.ts
+|   |   |   |   |   |-- App.tsx
+|   |   |   |   |   |-- main.tsx
+|   |   |   |   |   `-- vite-env.d.ts
+|   |   |   |   |-- .babelrc
+|   |   |   |   |-- .dockerignore
+|   |   |   |   |-- .eslintignore
+|   |   |   |   |-- .eslintrc.cjs
+|   |   |   |   |-- .gitignore
+|   |   |   |   |-- .prettierignore
+|   |   |   |   |-- .prettierrc.json
+|   |   |   |   |-- .watchmanconfig
+|   |   |   |   |-- frontend.Dockerfile
+|   |   |   |   |-- index.html
+|   |   |   |   |-- package.json
+|   |   |   |   |-- postcss.config.js
+|   |   |   |   |-- schema.graphql
+|   |   |   |   |-- tailwind.config.js
+|   |   |   |   |-- tsconfig.json
+|   |   |   |   |-- tsconfig.node.json
+|   |   |   |   |-- vite.config.ts
+|   |   |   |   `-- yarn.lock
+|   |   |   |-- .gitignore
+|   |   |   `-- README.md
+|   |   |-- notebooks/
+|   |   |   |-- images/
+|   |   |   |   |-- cars.jpg
+|   |   |   |   |-- groceries.jpg
+|   |   |   |   `-- truck.jpg
+|   |   |   |-- videos/
+|   |   |   |   |-- bedroom/
+|   |   |   |   |   |-- 00000.jpg
+|   |   |   |   |   |-- 00001.jpg
+|   |   |   |   |   |-- 00002.jpg
+|   |   |   |   |   |-- 00003.jpg
+|   |   |   |   |   |-- 00004.jpg
+|   |   |   |   |   |-- 00005.jpg
+|   |   |   |   |   |-- 00006.jpg
+|   |   |   |   |   |-- 00007.jpg
+|   |   |   |   |   |-- 00008.jpg
+|   |   |   |   |   |-- 00009.jpg
+|   |   |   |   |   |-- 00010.jpg
+|   |   |   |   |   |-- 00011.jpg
+|   |   |   |   |   |-- 00012.jpg
+|   |   |   |   |   |-- 00013.jpg
+|   |   |   |   |   |-- 00014.jpg
+|   |   |   |   |   |-- 00015.jpg
+|   |   |   |   |   |-- 00016.jpg
+|   |   |   |   |   |-- 00017.jpg
+|   |   |   |   |   |-- 00018.jpg
+|   |   |   |   |   |-- 00019.jpg
+|   |   |   |   |   |-- 00020.jpg
+|   |   |   |   |   |-- 00021.jpg
+|   |   |   |   |   |-- 00022.jpg
+|   |   |   |   |   |-- 00023.jpg
+|   |   |   |   |   |-- 00024.jpg
+|   |   |   |   |   |-- 00025.jpg
+|   |   |   |   |   |-- 00026.jpg
+|   |   |   |   |   |-- 00027.jpg
+|   |   |   |   |   |-- 00028.jpg
+|   |   |   |   |   |-- 00029.jpg
+|   |   |   |   |   |-- 00030.jpg
+|   |   |   |   |   |-- 00031.jpg
+|   |   |   |   |   |-- 00032.jpg
+|   |   |   |   |   |-- 00033.jpg
+|   |   |   |   |   |-- 00034.jpg
+|   |   |   |   |   |-- 00035.jpg
+|   |   |   |   |   |-- 00036.jpg
+|   |   |   |   |   |-- 00037.jpg
+|   |   |   |   |   |-- 00038.jpg
+|   |   |   |   |   |-- 00039.jpg
+|   |   |   |   |   |-- 00040.jpg
+|   |   |   |   |   |-- 00041.jpg
+|   |   |   |   |   |-- 00042.jpg
+|   |   |   |   |   |-- 00043.jpg
+|   |   |   |   |   |-- 00044.jpg
+|   |   |   |   |   |-- 00045.jpg
+|   |   |   |   |   |-- 00046.jpg
+|   |   |   |   |   |-- 00047.jpg
+|   |   |   |   |   |-- 00048.jpg
+|   |   |   |   |   |-- 00049.jpg
+|   |   |   |   |   |-- 00050.jpg
+|   |   |   |   |   |-- 00051.jpg
+|   |   |   |   |   |-- 00052.jpg
+|   |   |   |   |   |-- 00053.jpg
+|   |   |   |   |   |-- 00054.jpg
+|   |   |   |   |   |-- 00055.jpg
+|   |   |   |   |   |-- 00056.jpg
+|   |   |   |   |   |-- 00057.jpg
+|   |   |   |   |   |-- 00058.jpg
+|   |   |   |   |   |-- 00059.jpg
+|   |   |   |   |   |-- 00060.jpg
+|   |   |   |   |   |-- 00061.jpg
+|   |   |   |   |   |-- 00062.jpg
+|   |   |   |   |   |-- 00063.jpg
+|   |   |   |   |   |-- 00064.jpg
+|   |   |   |   |   |-- 00065.jpg
+|   |   |   |   |   |-- 00066.jpg
+|   |   |   |   |   |-- 00067.jpg
+|   |   |   |   |   |-- 00068.jpg
+|   |   |   |   |   |-- 00069.jpg
+|   |   |   |   |   |-- 00070.jpg
+|   |   |   |   |   |-- 00071.jpg
+|   |   |   |   |   |-- 00072.jpg
+|   |   |   |   |   |-- 00073.jpg
+|   |   |   |   |   |-- 00074.jpg
+|   |   |   |   |   |-- 00075.jpg
+|   |   |   |   |   |-- 00076.jpg
+|   |   |   |   |   |-- 00077.jpg
+|   |   |   |   |   |-- 00078.jpg
+|   |   |   |   |   |-- 00079.jpg
+|   |   |   |   |   |-- 00080.jpg
+|   |   |   |   |   |-- 00081.jpg
+|   |   |   |   |   |-- 00082.jpg
+|   |   |   |   |   |-- 00083.jpg
+|   |   |   |   |   |-- 00084.jpg
+|   |   |   |   |   |-- 00085.jpg
+|   |   |   |   |   |-- 00086.jpg
+|   |   |   |   |   |-- 00087.jpg
+|   |   |   |   |   |-- 00088.jpg
+|   |   |   |   |   |-- 00089.jpg
+|   |   |   |   |   |-- 00090.jpg
+|   |   |   |   |   |-- 00091.jpg
+|   |   |   |   |   |-- 00092.jpg
+|   |   |   |   |   |-- 00093.jpg
+|   |   |   |   |   |-- 00094.jpg
+|   |   |   |   |   |-- 00095.jpg
+|   |   |   |   |   |-- 00096.jpg
+|   |   |   |   |   |-- 00097.jpg
+|   |   |   |   |   |-- 00098.jpg
+|   |   |   |   |   |-- 00099.jpg
+|   |   |   |   |   |-- 00100.jpg
+|   |   |   |   |   |-- 00101.jpg
+|   |   |   |   |   |-- 00102.jpg
+|   |   |   |   |   |-- 00103.jpg
+|   |   |   |   |   |-- 00104.jpg
+|   |   |   |   |   |-- 00105.jpg
+|   |   |   |   |   |-- 00106.jpg
+|   |   |   |   |   |-- 00107.jpg
+|   |   |   |   |   |-- 00108.jpg
+|   |   |   |   |   |-- 00109.jpg
+|   |   |   |   |   |-- 00110.jpg
+|   |   |   |   |   |-- 00111.jpg
+|   |   |   |   |   |-- 00112.jpg
+|   |   |   |   |   |-- 00113.jpg
+|   |   |   |   |   |-- 00114.jpg
+|   |   |   |   |   |-- 00115.jpg
+|   |   |   |   |   |-- 00116.jpg
+|   |   |   |   |   |-- 00117.jpg
+|   |   |   |   |   |-- 00118.jpg
+|   |   |   |   |   |-- 00119.jpg
+|   |   |   |   |   |-- 00120.jpg
+|   |   |   |   |   |-- 00121.jpg
+|   |   |   |   |   |-- 00122.jpg
+|   |   |   |   |   |-- 00123.jpg
+|   |   |   |   |   |-- 00124.jpg
+|   |   |   |   |   |-- 00125.jpg
+|   |   |   |   |   |-- 00126.jpg
+|   |   |   |   |   |-- 00127.jpg
+|   |   |   |   |   |-- 00128.jpg
+|   |   |   |   |   |-- 00129.jpg
+|   |   |   |   |   |-- 00130.jpg
+|   |   |   |   |   |-- 00131.jpg
+|   |   |   |   |   |-- 00132.jpg
+|   |   |   |   |   |-- 00133.jpg
+|   |   |   |   |   |-- 00134.jpg
+|   |   |   |   |   |-- 00135.jpg
+|   |   |   |   |   |-- 00136.jpg
+|   |   |   |   |   |-- 00137.jpg
+|   |   |   |   |   |-- 00138.jpg
+|   |   |   |   |   |-- 00139.jpg
+|   |   |   |   |   |-- 00140.jpg
+|   |   |   |   |   |-- 00141.jpg
+|   |   |   |   |   |-- 00142.jpg
+|   |   |   |   |   |-- 00143.jpg
+|   |   |   |   |   |-- 00144.jpg
+|   |   |   |   |   |-- 00145.jpg
+|   |   |   |   |   |-- 00146.jpg
+|   |   |   |   |   |-- 00147.jpg
+|   |   |   |   |   |-- 00148.jpg
+|   |   |   |   |   |-- 00149.jpg
+|   |   |   |   |   |-- 00150.jpg
+|   |   |   |   |   |-- 00151.jpg
+|   |   |   |   |   |-- 00152.jpg
+|   |   |   |   |   |-- 00153.jpg
+|   |   |   |   |   |-- 00154.jpg
+|   |   |   |   |   |-- 00155.jpg
+|   |   |   |   |   |-- 00156.jpg
+|   |   |   |   |   |-- 00157.jpg
+|   |   |   |   |   |-- 00158.jpg
+|   |   |   |   |   |-- 00159.jpg
+|   |   |   |   |   |-- 00160.jpg
+|   |   |   |   |   |-- 00161.jpg
+|   |   |   |   |   |-- 00162.jpg
+|   |   |   |   |   |-- 00163.jpg
+|   |   |   |   |   |-- 00164.jpg
+|   |   |   |   |   |-- 00165.jpg
+|   |   |   |   |   |-- 00166.jpg
+|   |   |   |   |   |-- 00167.jpg
+|   |   |   |   |   |-- 00168.jpg
+|   |   |   |   |   |-- 00169.jpg
+|   |   |   |   |   |-- 00170.jpg
+|   |   |   |   |   |-- 00171.jpg
+|   |   |   |   |   |-- 00172.jpg
+|   |   |   |   |   |-- 00173.jpg
+|   |   |   |   |   |-- 00174.jpg
+|   |   |   |   |   |-- 00175.jpg
+|   |   |   |   |   |-- 00176.jpg
+|   |   |   |   |   |-- 00177.jpg
+|   |   |   |   |   |-- 00178.jpg
+|   |   |   |   |   |-- 00179.jpg
+|   |   |   |   |   |-- 00180.jpg
+|   |   |   |   |   |-- 00181.jpg
+|   |   |   |   |   |-- 00182.jpg
+|   |   |   |   |   |-- 00183.jpg
+|   |   |   |   |   |-- 00184.jpg
+|   |   |   |   |   |-- 00185.jpg
+|   |   |   |   |   |-- 00186.jpg
+|   |   |   |   |   |-- 00187.jpg
+|   |   |   |   |   |-- 00188.jpg
+|   |   |   |   |   |-- 00189.jpg
+|   |   |   |   |   |-- 00190.jpg
+|   |   |   |   |   |-- 00191.jpg
+|   |   |   |   |   |-- 00192.jpg
+|   |   |   |   |   |-- 00193.jpg
+|   |   |   |   |   |-- 00194.jpg
+|   |   |   |   |   |-- 00195.jpg
+|   |   |   |   |   |-- 00196.jpg
+|   |   |   |   |   |-- 00197.jpg
+|   |   |   |   |   |-- 00198.jpg
+|   |   |   |   |   `-- 00199.jpg
+|   |   |   |   `-- bedroom.mp4
+|   |   |   |-- automatic_mask_generator_example.ipynb
+|   |   |   |-- image_predictor_example.ipynb
+|   |   |   `-- video_predictor_example.ipynb
+|   |   |-- sam2/
+|   |   |   |-- configs/
+|   |   |   |   |-- sam2/
+|   |   |   |   |   |-- sam2_hiera_b+.yaml
+|   |   |   |   |   |-- sam2_hiera_l.yaml
+|   |   |   |   |   |-- sam2_hiera_s.yaml
+|   |   |   |   |   `-- sam2_hiera_t.yaml
+|   |   |   |   |-- sam2.1/
+|   |   |   |   |   |-- sam2.1_hiera_b+.yaml
+|   |   |   |   |   |-- sam2.1_hiera_l.yaml
+|   |   |   |   |   |-- sam2.1_hiera_s.yaml
+|   |   |   |   |   `-- sam2.1_hiera_t.yaml
+|   |   |   |   `-- sam2.1_training/
+|   |   |   |       `-- sam2.1_hiera_b+_MOSE_finetune.yaml
+|   |   |   |-- csrc/
+|   |   |   |   `-- connected_components.cu
+|   |   |   |-- modeling/
+|   |   |   |   |-- backbones/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- hieradet.py
+|   |   |   |   |   |-- image_encoder.py
+|   |   |   |   |   `-- utils.py
+|   |   |   |   |-- sam/
+|   |   |   |   |   |-- __init__.py
+|   |   |   |   |   |-- mask_decoder.py
+|   |   |   |   |   |-- prompt_encoder.py
+|   |   |   |   |   `-- transformer.py
+|   |   |   |   |-- __init__.py
+|   |   |   |   |-- memory_attention.py
+|   |   |   |   |-- memory_encoder.py
+|   |   |   |   |-- position_encoding.py
+|   |   |   |   |-- sam2_base.py
+|   |   |   |   `-- sam2_utils.py
+|   |   |   |-- utils/
+|   |   |   |   |-- __init__.py
+|   |   |   |   |-- amg.py
+|   |   |   |   |-- misc.py
+|   |   |   |   `-- transforms.py
+|   |   |   |-- __init__.py
+|   |   |   |-- automatic_mask_generator.py
+|   |   |   |-- benchmark.py
+|   |   |   |-- build_sam.py
+|   |   |   |-- sam2_hiera_b+.yaml
+|   |   |   |-- sam2_hiera_l.yaml
+|   |   |   |-- sam2_hiera_s.yaml
+|   |   |   |-- sam2_hiera_t.yaml
+|   |   |   |-- sam2_image_predictor.py
+|   |   |   |-- sam2_video_predictor.py
+|   |   |   `-- sam2_video_predictor_legacy.py
+|   |   |-- sav_dataset/
+|   |   |   |-- example/
+|   |   |   |   |-- sav_000001.mp4
+|   |   |   |   |-- sav_000001_auto.json
+|   |   |   |   `-- sav_000001_manual.json
+|   |   |   |-- utils/
+|   |   |   |   |-- sav_benchmark.py
+|   |   |   |   `-- sav_utils.py
+|   |   |   |-- LICENSE
+|   |   |   |-- LICENSE_DAVIS
+|   |   |   |-- LICENSE_VOS_BENCHMARK
+|   |   |   |-- README.md
+|   |   |   |-- requirements.txt
+|   |   |   |-- sav_evaluator.py
+|   |   |   `-- sav_visualization_example.ipynb
+|   |   |-- tools/
+|   |   |   |-- README.md
+|   |   |   `-- vos_inference.py
+|   |   |-- training/
+|   |   |   |-- assets/
+|   |   |   |   |-- MOSE_sample_train_list.txt
+|   |   |   |   `-- MOSE_sample_val_list.txt
+|   |   |   |-- dataset/
+|   |   |   |   |-- __init__.py
+|   |   |   |   |-- sam2_datasets.py
+|   |   |   |   |-- transforms.py
+|   |   |   |   |-- utils.py
+|   |   |   |   |-- vos_dataset.py
+|   |   |   |   |-- vos_raw_dataset.py
+|   |   |   |   |-- vos_sampler.py
+|   |   |   |   `-- vos_segment_loader.py
+|   |   |   |-- model/
+|   |   |   |   |-- __init__.py
+|   |   |   |   `-- sam2.py
+|   |   |   |-- scripts/
+|   |   |   |   `-- sav_frame_extraction_submitit.py
+|   |   |   |-- utils/
+|   |   |   |   |-- __init__.py
+|   |   |   |   |-- checkpoint_utils.py
+|   |   |   |   |-- data_utils.py
+|   |   |   |   |-- distributed.py
+|   |   |   |   |-- logger.py
+|   |   |   |   `-- train_utils.py
+|   |   |   |-- __init__.py
+|   |   |   |-- loss_fns.py
+|   |   |   |-- optimizer.py
+|   |   |   |-- README.md
+|   |   |   |-- train.py
+|   |   |   `-- trainer.py
+|   |   |-- .clang-format
+|   |   |-- .gitignore
+|   |   |-- .watchmanconfig
+|   |   |-- backend.Dockerfile
+|   |   |-- CODE_OF_CONDUCT.md
+|   |   |-- CONTRIBUTING.md
+|   |   |-- docker-compose.yaml
+|   |   |-- INSTALL.md
+|   |   |-- LICENSE
+|   |   |-- LICENSE_cctorch
+|   |   |-- MANIFEST.in
+|   |   |-- pyproject.toml
+|   |   |-- README.md
+|   |   |-- RELEASE_NOTES.md
+|   |   `-- setup.py
+|   `-- versions.json
+|-- tools/
+|   `-- README.md
+|-- weights/
+|   `-- [ignored]
+|-- .gitattributes
+|-- .gitignore
+|-- .gitmodules
+`-- README.md

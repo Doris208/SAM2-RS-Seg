@@ -1,0 +1,9 @@
+[submodule "third_party/mmsegmentation"]
+	path = third_party/mmsegmentation
+	url = https://github.com/open-mmlab/mmsegmentation.git
+[submodule "third_party/sam2"]
+	path = third_party/sam2
+	url = https://github.com/facebookresearch/sam2.git
+[submodule "third_party/GeoSeg"]
+	path = third_party/GeoSeg
+	url = https://github.com/WangLibo1995/GeoSeg.git
