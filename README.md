@@ -79,7 +79,8 @@ MMEngine 0.10.7、MMSegmentation 1.2.2、**从源码构建 MMCV 2.1.0**。
 `D:\Research\SAM2-RS-Seg`，确认后打开。主分支为 `main`，
 子模块为有意固定的 detached HEAD，不要对其直接提交改动。
 也可通过“文件 → 打开”选择此目录；无需创建远端仓库。
-主仓库未设置 GitHub remote，未执行 push。
+最终检查时主仓库已有 `origin=git@github.com:Doris208/SAM2-RS-Seg.git`。
+本轮未执行配置远端、创建 GitHub 仓库或 push，保留现有设置。
 
 后续只在此工程继续开发。科研数据、权重、输出和凭据不得加入源码提交。
 第三方各自许可证随源码保留；GeoSeg 为 GPL-3.0，未来如复制其实现应另行检查分发义务。

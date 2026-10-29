@@ -15,7 +15,9 @@
   完整相对路径清单见 source_inventory.txt。
 - SourceTree.exe 实际存在，版本 3.4.27.0；主仓库是标准 .git 仓库，可按 README 的路径添加。
   本轮未操作 SourceTree 图形界面，不声称已完成 GUI 添加。
-- 未配置主仓库远端，未创建 GitHub 仓库或 push。
+- 最初查询主仓库无远端；最终检查时已有
+  `origin=git@github.com:Doris208/SAM2-RS-Seg.git`，保留该设置。
+  本轮未执行配置远端、创建 GitHub 仓库或 push。
 
 Git 子模块命令最初缺少 Git 自带 shell 的 PATH；在当前进程补充后恢复。
 网络直连 GitHub 超时，使用系统已配置的本地代理后源码获取成功。
@@ -41,17 +43,25 @@ PATH 未发现 nvidia-smi/nvcc。盘点退出0只表示脚本完成，不代表 
 6. 清单路径不能越过源码根目录。
 7. SAM2 Windows Git链接占位文本解析成真实 YAML、拒绝仓库外目标。
 
+实际结果：7项测试全部通过，16个自有 Python 文件 AST 解析通过。
 这些不是实际数据集或模型测试；通过不代表训练损失的 ignore 已验收。
 自有 Python 文件执行 AST 解析，第三方代码不执行不改写。
 
 ## 初始提交后的部署验收
 
-执行以下命令并将实际结果保存在被忽略的 outputs/：
+初始 Commit 已创建：
+`70b7da5e90a0b56c046bce1a9ed4e222bc5e93c7` / `Initial project structure`。
+该版本导出2436个受控源码文件全部通过SHA-256核验，四个SAM2 YAML链接已物化；
+导出中无Git内部文件、data、weights或outputs目录，三个子模块均干净且gitlink一致。
+实际结果保存在被忽略的 `outputs/initialization_validation.json`。
+最终文档更新另作提交，最终版本以新清单的main.commit为准。
+
+以后每次提交后重新执行（<new_release_id>必须是尚不存在的目录）：
 
 ```powershell
 python scripts/deployment_manifest.py create --require-clean --output outputs/version_manifest.json
-python scripts/deployment_manifest.py create --require-clean --export-dir deploy/initial-review
-python scripts/deployment_manifest.py verify --root deploy/initial-review --manifest deploy/initial-review/source_manifest.json
+python scripts/deployment_manifest.py create --require-clean --export-dir deploy/<new_release_id>
+python scripts/deployment_manifest.py verify --root deploy/<new_release_id> --manifest deploy/<new_release_id>/source_manifest.json
 ```
 
 检查主 SHA、三个子模块 SHA、dirty=false；主仓库与子模块状态均应干净。
