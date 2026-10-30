@@ -1,10 +1,12 @@
-# Lightning引擎接口（设计，未实现）
+# Lightning训练引擎（03B）
 
-未来SegmentationModule继承lightning.pytorch.LightningModule，封装普通PyTorch模型，
-负责各step、loss、configure_optimizers及val/test TorchMetrics状态。
-SegmentationDataModule继承LightningDataModule，负责已有数据与DataLoader；
-prepare_data不自动下载大型数据集。
+`SegmentationLightningModule`持有普通nn.Module，管理CE损失、各阶段步骤及指标生命周期。
+`optim.py`直接构建AdamW和按optimizer step更新的PolynomialLR，检查参数分组覆盖。
+补充审查后，损失从`../losses/`构建；PolynomialLR可显式按step或epoch更新，缺省仍为step。
+训练可通过正的max_steps或max_epochs控制；原03B默认step配置与CE评价协议保持不变。
+`experiment.py`组合DataModule、CSVLogger、ModelCheckpoint和Trainer，保存生效配置与环境。
+完整恢复使用`Trainer.fit(..., ckpt_path=...)`；fit结束后通过公开API补存最终完整last.ckpt。
+Dataset/DataModule位于现有`../datasets/`命名空间，没有另建重复data目录。
 
-训练入口显式组合模型、DataModule、ModelCheckpoint、logger及Trainer。
-源码版本通过后续Callback写入日志/实验目录，不创建另一套训练主循环。
-当前没有上述类、训练入口、权重或可运行配置。
+没有自定义训练循环、真实数据读取器或DDP实现。
+运行命令、恢复语义和待云端执行的检查见[03B报告](../../../docs/task03b.md)。

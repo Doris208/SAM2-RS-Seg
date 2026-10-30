@@ -5,12 +5,12 @@
 唯一主工作区：D:\Research\SAM2-RS-Seg。GitHub：https://github.com/Doris208/SAM2-RS-Seg
 任务02迁移分支：refactor/lightning-backend；按用户追加授权，检查后直接提交并同步该分支。
 
-**任务03A已新增官方ImageEncoder适配、轻量多类别语义头及合成测试；完整官方预训练GPU验证待云端执行。Lightning训练模块和真实数据加载器尚未实现，没有正式训练结果。**
+**任务03A的三尺度模型及完整梯度已由用户确认通过云端验证。03B新增可配置Lightning训练、评价、恢复与一致性检查代码，03B正式GPU验收待云端执行；没有真实遥感数据训练结果。**
 
 ## 技术分工
 
 - 原生PyTorch：Hiera适配、多尺度语义解码、损失和优化器。
-- PyTorch Lightning：唯一训练管理框架，未来统一使用lightning.pytorch命名空间。
+- PyTorch Lightning：唯一训练管理框架，统一使用lightning.pytorch命名空间。
 - TorchMetrics：累积分类统计量、计算与导出mIoU/逐类IoU/mF1/OA。
 - 官方SAM2：固定源码提供Hiera，保留原始Prompt Encoder/Mask Decoder独立扩展。
 - GeoSeg：只参考数据、裁片和整图推理，不安装其训练依赖或复制其主框架。
@@ -29,11 +29,11 @@ ignore_index=255；Mask最近邻缩放；按原始tile划分后再裁块。
 
 | 路径 | 当前职责 |
 |---|---|
-| configs/ | 分离模型/数据/训练/推理配置；.plan.json仅设计，不能启动训练 |
+| configs/ | smoke/task03b.yaml驱动合成训练；.plan.json仍仅设计 |
 | projects/sam2_rs_seg/models/ | SAM2ImageEncoder、SemanticSegmentationHead、SAM2SemanticSegmentor；prompt_adapters预留 |
-| projects/sam2_rs_seg/datasets/ | 未来原生Dataset |
-| projects/sam2_rs_seg/engine/ | 未来LightningModule、LightningDataModule与Trainer |
-| projects/sam2_rs_seg/evaluation/ | 未来TorchMetrics状态与结构化结果 |
+| projects/sam2_rs_seg/datasets/ | 合成Dataset和通用DataModule；真实数据读取留待03C |
+| projects/sam2_rs_seg/engine/ | LightningModule、优化器/调度器、Trainer实验组合 |
+| projects/sam2_rs_seg/evaluation/ | 累计混淆矩阵、统一分割指标及状态管理 |
 | datasets/label_contract.py | 已实现的通用标签契约，保持原编号不变 |
 | scripts/ | 环境盘点、两子模块版本/哈希清单、源码导出与校验 |
 | tests/ | 无GPU基础测试 |
@@ -66,15 +66,19 @@ python -m unittest discover -s tests -v
 GPU验证必须显式传入官方checkpoint；脚本不下载权重，不自动回退到随机初始化。
 三尺度修正版Smoke逐一检查Hiera四阶段/全部blocks和Neck四个投影分支；旧版单尺度PASS不等同于完整多尺度验收。
 
-并行智算云PyTorch25.03是优先调查候选，必须先读取实际镜像内容。
-Lightning2.5.5与TorchMetrics1.7.4是待考察候选，不是已通过环境。
-不因为基础镜像名称就自动升级或降级其预装PyTorch。
+03B说明与云端命令见[任务03B报告](docs/task03b.md)。正式运行全部安排在云端RTX 4090；
+本地只完成代码、静态检查和验收脚本，不要求安装或升级训练环境。
+`scripts/smoke_03b.py`验证短训练、完整恢复、重复验证、测试及原生PyTorch/Lightning单步一致性。
+
+五层架构审查及必要补充见[03B架构审查](docs/task03b_architecture_audit.md)：
+独立CE/多类别Dice损失、epoch/step训练控制和明确的调度周期；原SAM2三尺度结构保持不变。
+
+03B指令提供的云端环境为PyTorch2.7.1+cu128、Lightning2.6.6；实际版本写入运行报告。
+不自动升级或降级已有PyTorch、CUDA、torchvision、Lightning或SAM2。
 
 ## 文档与版本管理
 
-- [架构](docs/01_architecture.md)、[依赖](docs/02_environment_compatibility.md)、[GPU计划](docs/03_gpu_setup_plan.md)
-- [数据协议](docs/04_dataset_plan.md)、[实施步骤](docs/05_implementation_steps.md)、[两子模块部署](docs/06_deployment.md)
-- [任务01历史核验](docs/07_validation.md)、[当前结构](docs/08_directory_tree.md)、[任务02迁移记录](docs/09_lightning_migration.md)
+- [03A模型](docs/task03a.md)、[03B训练框架](docs/task03b.md)
 
 SourceTree继续管理同一路径。main及其历史保留；origin沿用现有GitHub配置。
 git rm规范移除旧子模块；提交前检查差异、测试和子模块状态，不要求用户手动审查。
