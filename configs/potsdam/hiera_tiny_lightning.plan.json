@@ -4,16 +4,18 @@
   "framework": "lightning.pytorch",
   "experiment": "potsdam_rgb_hiera_tiny_supervised",
   "model": {
+    "type": "SAM2SemanticSegmentor",
+    "head_channels": 128,
     "backbone": {
-      "type": "SAM2HieraBackbone",
-      "implemented": false,
+      "type": "SAM2ImageEncoder",
+      "implemented": true,
       "official_config": "configs/sam2.1/sam2.1_hiera_t.yaml",
-      "feature_source": "trunk",
-      "expected_channels": [96, 192, 384, 768],
-      "expected_strides": [4, 8, 16, 32],
+      "feature_source": "backbone_fpn",
+      "expected_channels": [256, 256, 256],
+      "expected_strides": [4, 8, 16],
       "checkpoint": null
     },
-    "decoder": {"type": "SimpleMultiScaleDecoder", "implemented": false},
+    "decoder": {"type": "SemanticSegmentationHead", "implemented": true, "feature_indices": [0, 1, 2]},
     "num_classes": 6,
     "prompt_branch_enabled": false
   },

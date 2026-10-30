@@ -1,0 +1,8 @@
+{
+  "num_classes": 6,
+  "head_channels": 128,
+  "pretrained": false,
+  "checkpoint_path": null,
+  "sam2_config": "configs/sam2.1/sam2.1_hiera_t.yaml",
+  "device": "cpu"
+}

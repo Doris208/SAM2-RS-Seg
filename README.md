@@ -5,7 +5,7 @@
 唯一主工作区：D:\Research\SAM2-RS-Seg。GitHub：https://github.com/Doris208/SAM2-RS-Seg
 任务02迁移分支：refactor/lightning-backend；按用户追加授权，检查后直接提交并同步该分支。
 
-**当前只完成工程底座、接口设计及辅助工具。Hiera适配器、语义头、Lightning训练模块和数据加载器均未实现，没有可运行训练配置或训练结果。**
+**任务03A已新增官方ImageEncoder适配、轻量多类别语义头及合成测试；完整官方预训练GPU验证待云端执行。Lightning训练模块和真实数据加载器尚未实现，没有正式训练结果。**
 
 ## 技术分工
 
@@ -19,7 +19,7 @@
 
 ## 模型与数据目标
 
-三通道影像 → 官方Hiera Tiny多尺度特征 → 简单PyTorch语义头 → K通道logits。
+三通道影像 → 官方SAM2.1 ImageEncoder（Hiera Tiny + FpnNeck）→ 三尺度backbone_fpn对齐拼接 → 轻量PyTorch语义头 → K通道logits。
 完整人工GT全监督，Potsdam RGB优先，后续Vaihingen IRRG与LoveDA2021 RGB。
 ignore_index=255；Mask最近邻缩放；按原始tile划分后再裁块。
 未来实现验证集mIoU保存最佳模型、类别ID PNG、RGB图、滑窗logits融合与整图拼接。
@@ -30,7 +30,7 @@ ignore_index=255；Mask最近邻缩放；按原始tile划分后再裁块。
 | 路径 | 当前职责 |
 |---|---|
 | configs/ | 分离模型/数据/训练/推理配置；.plan.json仅设计，不能启动训练 |
-| projects/sam2_rs_seg/models/ | backbones、decode_heads、prompt_adapters接口命名空间 |
+| projects/sam2_rs_seg/models/ | SAM2ImageEncoder、SemanticSegmentationHead、SAM2SemanticSegmentor；prompt_adapters预留 |
 | projects/sam2_rs_seg/datasets/ | 未来原生Dataset |
 | projects/sam2_rs_seg/engine/ | 未来LightningModule、LightningDataModule与Trainer |
 | projects/sam2_rs_seg/evaluation/ | 未来TorchMetrics状态与结构化结果 |
@@ -60,6 +60,11 @@ python -m unittest discover -s tests -v
 默认环境盘点只读取包元数据，不导入深度学习框架；缺少依赖/无GPU时仍可完成盘点。
 --runtime显式启用CPU导入/反传/合成指标；--require-gpu显式启用CUDA，未在本机验证。
 --candidate仅检查候选最低声明，不再锁死Python/CUDA/PyTorch/Lightning精确版本。
+
+任务03A模型接口、源码参考、测试记录及云端命令见 [任务03A报告](docs/task03a.md)。
+`configs/task03a_model.json` 仅供随机初始化模型构建；`.plan.json` 仍不能启动训练。
+GPU验证必须显式传入官方checkpoint；脚本不下载权重，不自动回退到随机初始化。
+三尺度修正版Smoke逐一检查Hiera四阶段/全部blocks和Neck四个投影分支；旧版单尺度PASS不等同于完整多尺度验收。
 
 并行智算云PyTorch25.03是优先调查候选，必须先读取实际镜像内容。
 Lightning2.5.5与TorchMetrics1.7.4是待考察候选，不是已通过环境。

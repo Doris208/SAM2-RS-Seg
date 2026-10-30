@@ -4,8 +4,13 @@
 先使用标准JSON设计文件，后续如需YAML再显式解析并验证schema；不引入框架专属注册机制。
 
 potsdam/hiera_tiny_lightning.plan.json明确标记design_only_not_runnable。
-模型类型仅为未来接口名称；checkpoint、数据划分和未确定训练参数为null。
+模型部分已按任务03A实现为SAM2ImageEncoder（含官方FpnNeck）和SemanticSegmentationHead；
+checkpoint、数据划分和未确定训练参数仍为null，训练设计状态不变。
 本轮没有配置加载器或训练命令，不能用该文件启动Trainer。
 
 后续入口计划显式构建普通PyTorch模型、LightningModule、LightningDataModule和Trainer；
 禁止配置中的任意字符串变成未经检查的动态代码执行。
+
+task03a_model.json只包含SAM2SemanticSegmentor构造参数，用于随机初始化模型检查。
+启用预训练时必须显式设置pretrained=true并传入存在的checkpoint_path。
+此文件不包含训练配置，也没有新增配置加载器或模型注册机制。

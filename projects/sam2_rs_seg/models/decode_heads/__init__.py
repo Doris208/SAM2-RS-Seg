@@ -1,1 +1,5 @@
-"""Future simple multiscale PyTorch decoder returning K-channel logits."""
+"""Lightweight semantic classification heads."""
+
+from .semantic_head import SemanticSegmentationHead
+
+__all__ = ["SemanticSegmentationHead"]
